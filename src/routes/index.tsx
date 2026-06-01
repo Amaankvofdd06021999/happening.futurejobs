@@ -152,6 +152,9 @@ function Hero() {
 
 function TrustBand() {
   const logos = ["KESUMA", "PERKESO", "TalentCorp", "MDEC", "HRD Corp", "MAMPU"];
+  // Repeat the set within each half so each half is wider than the viewport —
+  // keeps the -50% loop seamless with no empty gap on wide screens.
+  const REPEAT = 4;
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-7xl">
@@ -161,9 +164,11 @@ function TrustBand() {
             <div className="marquee-track">
               {[0, 1].map((copy) => (
                 <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center gap-x-12 pr-12">
-                  {logos.map((n) => (
-                    <li key={n} className="text-sm tracking-wide text-ink/55 whitespace-nowrap">{n}</li>
-                  ))}
+                  {Array.from({ length: REPEAT }).flatMap((_, r) =>
+                    logos.map((n) => (
+                      <li key={`${copy}-${r}-${n}`} className="text-sm tracking-wide text-ink/55 whitespace-nowrap">{n}</li>
+                    ))
+                  )}
                 </ul>
               ))}
             </div>
