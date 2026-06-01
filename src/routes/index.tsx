@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Briefcase, Building2, Sparkles, FileText, Users, Search } from "lucide-react";
+import { ArrowRight, Briefcase, Building2, FileText, Users, Search } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/")({
@@ -62,6 +62,14 @@ function Hero() {
                 "radial-gradient(60% 60% at 80% 20%, oklch(0.85 0.1 230 / 0.45) 0%, transparent 60%), radial-gradient(40% 40% at 20% 80%, oklch(0.95 0.18 130 / 0.25) 0%, transparent 60%)",
             }}
           />
+
+          {/* Hero composition — sits freely on the right, bleeding to the bottom edge within the rounded rectangle */}
+          <img
+            src="/hero-girl.png"
+            alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
+            className="hidden md:block absolute bottom-0 right-2 lg:right-8 h-[460px] lg:h-[540px] w-auto object-contain object-bottom pointer-events-none select-none"
+          />
+
           <div className="relative grid md:grid-cols-2 gap-10 items-center">
             <div className="text-white">
               <span className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
@@ -86,63 +94,12 @@ function Hero() {
               </div>
             </div>
 
-            <div className="relative h-[420px] hidden md:block">
-              <FloatCard className="absolute top-2 right-8 w-64" tilt="-2deg">
-                <div className="text-[11px] uppercase tracking-wider text-muted-ink">Active jobs today</div>
-                <div className="text-3xl tracking-tight mt-1">38,420</div>
-                <div className="mt-3 flex gap-1.5 flex-wrap">
-                  <Pill>Engineering</Pill><Pill>Public sector</Pill><Pill green>Remote</Pill>
-                </div>
-              </FloatCard>
-              <FloatCard className="absolute top-32 right-44 w-72" tilt="3deg">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-accent-lime/40" />
-                  <div>
-                    <div className="text-sm">Nurul · matched</div>
-                    <div className="text-xs text-muted-ink">Frontend Engineer · 94% fit</div>
-                  </div>
-                </div>
-                <div className="mt-3 h-1.5 rounded-full bg-surface-alt overflow-hidden">
-                  <div className="h-full bg-brand" style={{ width: "94%" }} />
-                </div>
-              </FloatCard>
-              <FloatCard className="absolute bottom-4 right-12 w-72 bg-ink text-white" tilt="-1deg">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-white/70">
-                  <Sparkles className="h-3.5 w-3.5 text-accent-lime" /> AI assist
-                </div>
-                <div className="mt-2 text-[15px] leading-snug">
-                  We auto-filled your profile from your CV in 8 seconds.
-                </div>
-              </FloatCard>
-              <FloatCard className="absolute bottom-32 left-2 w-56" tilt="2deg">
-                <div className="text-[11px] uppercase tracking-wider text-muted-ink">Placements</div>
-                <div className="text-3xl tracking-tight mt-1">12,580</div>
-                <div className="text-xs text-emerald-600 mt-1">↗ +8.4% MoM</div>
-              </FloatCard>
-            </div>
+            {/* Spacer: the hero image is absolutely positioned to bleed to the rectangle's edge */}
+            <div className="hidden md:block" aria-hidden />
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function FloatCard({ children, className = "", tilt = "0deg" }: { children: React.ReactNode; className?: string; tilt?: string }) {
-  return (
-    <div
-      className={`rounded-2xl bg-surface border border-border shadow-[0_10px_40px_-15px_rgba(0,0,0,0.25)] p-4 ${className}`}
-      style={{ transform: `rotate(${tilt})` }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Pill({ children, green }: { children: React.ReactNode; green?: boolean }) {
-  return (
-    <span className={`px-2.5 py-1 rounded-full text-xs ${green ? "bg-accent-lime/30 text-ink" : "bg-surface-alt text-ink/80"}`}>
-      {children}
-    </span>
   );
 }
 
