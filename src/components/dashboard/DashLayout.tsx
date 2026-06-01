@@ -3,6 +3,7 @@ import { useEffect, type ReactNode } from "react";
 import { Bell, LogOut, Search } from "lucide-react";
 import { useAuth, type Role } from "@/lib/auth";
 import { Logo } from "@/components/Logo";
+import { Reveal, RevealLift } from "@/components/motion";
 
 export interface NavItem {
   to: string;
@@ -126,13 +127,13 @@ export function DashLayout({
 
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
   return (
-    <div className="flex items-end justify-between mb-6">
+    <Reveal className="flex items-end justify-between mb-6">
       <div>
         <h1 className="text-3xl tracking-tight text-ink">{title}</h1>
         {subtitle && <p className="text-muted-ink mt-1">{subtitle}</p>}
       </div>
       {actions}
-    </div>
+    </Reveal>
   );
 }
 
@@ -144,13 +145,13 @@ export function StatCard({ label, value, delta, accent }: { label: string; value
     purple: "from-violet-100/60",
   };
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-surface border border-border p-5">
+    <RevealLift className="relative overflow-hidden rounded-2xl bg-surface border border-border p-5">
       <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t ${accents[accent ?? "blue"]} to-transparent`} />
       <div className="relative">
         <div className="text-[11px] uppercase tracking-wider text-muted-ink">{label}</div>
         <div className="mt-2 text-3xl tracking-tight text-ink">{value}</div>
         {delta && <div className="mt-2 text-xs text-emerald-600">↗ {delta}</div>}
       </div>
-    </div>
+    </RevealLift>
   );
 }

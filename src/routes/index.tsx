@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Briefcase, Building2, FileText, Users, Search } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Logo } from "@/components/Logo";
+import { Reveal, RevealLift, easeOut } from "@/components/motion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,6 +15,15 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
+
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
+};
+const heroItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
+};
 
 function Index() {
   return (
@@ -42,9 +53,11 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-2">
           <Link to="/login" className="text-sm px-4 py-2 rounded-full text-ink hover:bg-surface-alt">Log in</Link>
-          <Link to="/register" className="text-sm px-4 py-2 rounded-full bg-accent-lime text-accent-lime-foreground inline-flex items-center gap-1.5">
-            Get Started <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          <motion.span whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-flex">
+            <Link to="/register" className="text-sm px-4 py-2 rounded-full bg-accent-lime text-accent-lime-foreground inline-flex items-center gap-1.5">
+              Get Started <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </motion.span>
         </div>
       </div>
     </header>
@@ -52,6 +65,7 @@ function Nav() {
 }
 
 function Hero() {
+  const reduce = useReducedMotion();
   return (
     <section className="relative px-6 pt-12 pb-20">
       <div className="mx-auto max-w-7xl">
@@ -63,37 +77,55 @@ function Hero() {
             }}
           />
 
-          {/* Hero composition — full height of the rectangle, anchored right, sitting behind the text */}
-          <img
-            src="/hero-girl.png"
-            alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
-            className="hidden md:block absolute inset-y-0 right-0 z-0 h-full w-auto pointer-events-none select-none"
-          />
+          {/* Hero composition — full height of the rectangle, anchored right, behind the text */}
+          <motion.div
+            className="hidden md:block absolute inset-y-0 right-0 z-0"
+            initial={reduce ? false : { opacity: 0, x: 48 }}
+            animate={reduce ? false : { opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: easeOut, delay: 0.1 }}
+          >
+            <motion.img
+              src="/hero-girl.png"
+              alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
+              className="h-full w-auto pointer-events-none select-none"
+              animate={reduce ? undefined : { y: [0, -10, 0] }}
+              transition={reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
 
-          {/* Text — free to overlap the image; always layered above it */}
-          <div className="relative z-10 text-white max-w-2xl">
-            <span className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
+          {/* Text — free to overlap the image; always layered above it, staggered in on load */}
+          <motion.div
+            className="relative z-10 text-white max-w-2xl"
+            variants={reduce ? undefined : heroContainer}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? false : "show"}
+          >
+            <motion.span variants={reduce ? undefined : heroItem} className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
               <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Kementerian Sumber Manusia
-            </span>
-            <h1 className="mt-6 text-[44px] md:text-[64px] leading-[1.02] tracking-tight">
+            </motion.span>
+            <motion.h1 variants={reduce ? undefined : heroItem} className="mt-6 text-[44px] md:text-[64px] leading-[1.02] tracking-tight">
               Building Malaysia's<br />
               <span className="editorial text-accent-lime">future</span> workforce
-            </h1>
-            <p className="mt-5 text-white/80 text-lg max-w-lg">
+            </motion.h1>
+            <motion.p variants={reduce ? undefined : heroItem} className="mt-5 text-white/80 text-lg max-w-lg">
               One national portal — two clear paths. Find work or hire talent with practical, AI-assisted tools that save real time.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
-                Find a job <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur">
-                Hire talent
-              </Link>
-            </div>
-            <div className="mt-6 text-sm text-white/70">
+            </motion.p>
+            <motion.div variants={reduce ? undefined : heroItem} className="mt-8 flex flex-wrap gap-3">
+              <motion.span whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }} className="inline-flex">
+                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
+                  Find a job <ArrowRight className="h-4 w-4" />
+                </Link>
+              </motion.span>
+              <motion.span whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }} className="inline-flex">
+                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur">
+                  Hire talent
+                </Link>
+              </motion.span>
+            </motion.div>
+            <motion.div variants={reduce ? undefined : heroItem} className="mt-6 text-sm text-white/70">
               Trusted by 4,900+ employers · Rated 4.9/5
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -104,12 +136,14 @@ function TrustBand() {
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center text-xs uppercase tracking-wider text-muted-ink mb-6">In partnership with</div>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-60 text-ink/70">
-          {["KESUMA", "PERKESO", "TalentCorp", "MDEC", "HRD Corp", "MAMPU"].map((n) => (
-            <span key={n} className="text-sm tracking-wide">{n}</span>
-          ))}
-        </div>
+        <Reveal className="text-center text-xs uppercase tracking-wider text-muted-ink mb-6">In partnership with</Reveal>
+        <Reveal delay={0.05}>
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-60 text-ink/70">
+            {["KESUMA", "PERKESO", "TalentCorp", "MDEC", "HRD Corp", "MAMPU"].map((n) => (
+              <span key={n} className="text-sm tracking-wide">{n}</span>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -119,13 +153,13 @@ function TwoPaths() {
   return (
     <section id="paths" className="px-6 py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="max-w-2xl mb-12">
+        <Reveal className="max-w-2xl mb-12">
           <div className="text-xs uppercase tracking-wider text-muted-ink">• Two clear doors</div>
           <h2 className="mt-3 text-4xl md:text-5xl tracking-tight text-ink">
             One portal, dedicated to <span className="editorial text-brand">jobseekers</span> and{" "}
             <span className="editorial text-brand">employers</span>.
           </h2>
-        </div>
+        </Reveal>
         <div className="grid md:grid-cols-2 gap-6">
           <PathCard
             role="Jobseekers"
@@ -134,6 +168,7 @@ function TwoPaths() {
             cta={{ to: "/register", label: "Create your profile" }}
             iconBg="bg-accent-lime/40 text-ink"
             icon={<Briefcase className="h-5 w-5" />}
+            delay={0}
           />
           <PathCard
             role="Employers"
@@ -143,6 +178,7 @@ function TwoPaths() {
             iconBg="bg-brand text-white"
             icon={<Building2 className="h-5 w-5" />}
             dark
+            delay={0.1}
           />
         </div>
       </div>
@@ -150,12 +186,12 @@ function TwoPaths() {
   );
 }
 
-function PathCard({ role, title, bullets, cta, iconBg, icon, dark }: {
+function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0 }: {
   role: string; title: string; bullets: string[]; cta: { to: string; label: string };
-  iconBg: string; icon: React.ReactNode; dark?: boolean;
+  iconBg: string; icon: React.ReactNode; dark?: boolean; delay?: number;
 }) {
   return (
-    <div className={`rounded-3xl p-8 md:p-10 border ${dark ? "bg-ink text-white border-ink" : "bg-surface-alt border-border"}`}>
+    <RevealLift delay={delay} className={`rounded-3xl p-8 md:p-10 border ${dark ? "bg-ink text-white border-ink" : "bg-surface-alt border-border"}`}>
       <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${iconBg}`}>{icon}</div>
       <div className={`mt-6 text-xs uppercase tracking-wider ${dark ? "text-white/60" : "text-muted-ink"}`}>{role}</div>
       <h3 className="mt-2 text-2xl md:text-3xl tracking-tight">{title}</h3>
@@ -170,7 +206,7 @@ function PathCard({ role, title, bullets, cta, iconBg, icon, dark }: {
       <Link to={cta.to} className={`mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-full ${dark ? "bg-accent-lime text-accent-lime-foreground" : "bg-brand text-brand-foreground"}`}>
         {cta.label} <ArrowRight className="h-4 w-4" />
       </Link>
-    </div>
+    </RevealLift>
   );
 }
 
@@ -183,7 +219,7 @@ function AIBand() {
   return (
     <section id="ai" className="px-6 py-20">
       <div className="mx-auto max-w-7xl rounded-[32px] bg-ink text-white p-10 md:p-16">
-        <div className="max-w-3xl">
+        <Reveal className="max-w-3xl">
           <div className="text-xs uppercase tracking-wider text-accent-lime">• Practical AI</div>
           <h2 className="mt-3 text-4xl md:text-5xl tracking-tight">
             AI that does the work <span className="editorial text-accent-lime">for you</span>.
@@ -191,16 +227,16 @@ function AIBand() {
           <p className="mt-4 text-white/70 text-lg">
             Productivity-focused, grounded in your real data, and always optional. No gimmicks.
           </p>
-        </div>
+        </Reveal>
         <div className="mt-12 grid md:grid-cols-3 gap-5">
-          {tiles.map((t) => (
-            <div key={t.title} className="rounded-2xl bg-white/5 border border-white/10 p-6">
+          {tiles.map((t, i) => (
+            <RevealLift key={t.title} delay={i * 0.1} className="rounded-2xl bg-white/5 border border-white/10 p-6">
               <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-accent-lime text-accent-lime-foreground">
                 {t.icon}
               </div>
               <h3 className="mt-5 text-xl tracking-tight">{t.title}</h3>
               <p className="mt-2 text-white/70 text-[15px] leading-relaxed">{t.body}</p>
-            </div>
+            </RevealLift>
           ))}
         </div>
       </div>
@@ -218,19 +254,19 @@ function HowItWorks() {
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+        <Reveal className="flex items-end justify-between mb-12 flex-wrap gap-4">
           <h2 className="text-4xl md:text-5xl tracking-tight max-w-2xl">
             How it works for <span className="editorial text-brand">jobseekers</span>
           </h2>
           <Link to="/register" className="text-sm inline-flex items-center gap-2 text-brand">For employers → <ArrowRight className="h-4 w-4" /></Link>
-        </div>
+        </Reveal>
         <div className="grid md:grid-cols-4 gap-4">
-          {steps.map((s) => (
-            <div key={s.n} className="rounded-2xl bg-surface-alt p-6 border border-border">
+          {steps.map((s, i) => (
+            <RevealLift key={s.n} delay={i * 0.08} className="rounded-2xl bg-surface-alt p-6 border border-border">
               <div className="text-xs uppercase tracking-wider text-muted-ink">{s.n}</div>
               <h3 className="mt-3 text-xl tracking-tight">{s.t}</h3>
               <p className="mt-2 text-muted-ink text-[15px]">{s.d}</p>
-            </div>
+            </RevealLift>
           ))}
         </div>
       </div>
@@ -248,11 +284,11 @@ function Stats() {
   return (
     <section className="px-6 pb-24">
       <div className="mx-auto max-w-7xl grid md:grid-cols-4 gap-4">
-        {stats.map((s) => (
-          <div key={s.t} className={`rounded-2xl p-8 ${s.style}`}>
+        {stats.map((s, i) => (
+          <RevealLift key={s.t} delay={i * 0.08} className={`rounded-2xl p-8 ${s.style}`}>
             <div className="text-5xl tracking-tight">{s.n}</div>
             <div className="mt-6 text-sm opacity-80">{s.t}</div>
-          </div>
+          </RevealLift>
         ))}
       </div>
     </section>
