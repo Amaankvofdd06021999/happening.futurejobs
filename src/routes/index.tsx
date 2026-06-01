@@ -82,7 +82,7 @@ function Hero() {
           <motion.img
             src="/hero-girl.png"
             alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
-            className="hidden lg:block absolute bottom-0 right-0 z-0 h-[112%] w-auto object-bottom pointer-events-none select-none"
+            className="hidden lg:block absolute bottom-0 right-0 z-0 h-[92%] xl:h-[112%] w-auto object-bottom pointer-events-none select-none"
             initial={reduce ? false : { opacity: 0, x: 48 }}
             animate={reduce ? false : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: easeOut, delay: 0.1 }}
@@ -90,7 +90,7 @@ function Hero() {
 
           {/* Text — free to overlap the image; always layered above it, staggered in on load */}
           <motion.div
-            className="relative z-10 text-white max-w-2xl lg:max-w-3xl"
+            className="relative z-10 text-white max-w-2xl xl:max-w-3xl"
             variants={reduce ? undefined : heroContainer}
             initial={reduce ? false : "hidden"}
             animate={reduce ? false : "show"}
