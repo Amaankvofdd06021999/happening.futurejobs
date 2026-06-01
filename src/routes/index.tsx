@@ -69,7 +69,7 @@ function Hero() {
   return (
     <section className="relative px-6 pt-12 pb-20">
       <div className="mx-auto max-w-7xl">
-        <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft p-8 md:p-14 min-h-[560px] md:min-h-[672px]">
+        <div className="relative flex flex-col justify-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand via-brand to-brand-soft p-8 sm:p-10 lg:p-14 min-h-[500px] md:min-h-[560px] lg:min-h-[672px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
             style={{
               background:
@@ -82,7 +82,7 @@ function Hero() {
           <motion.img
             src="/hero-girl.png"
             alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
-            className="hidden md:block absolute bottom-0 right-0 z-0 h-[112%] w-auto object-bottom pointer-events-none select-none"
+            className="hidden lg:block absolute bottom-0 right-0 z-0 h-[112%] w-auto object-bottom pointer-events-none select-none"
             initial={reduce ? false : { opacity: 0, x: 48 }}
             animate={reduce ? false : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: easeOut, delay: 0.1 }}
@@ -90,7 +90,7 @@ function Hero() {
 
           {/* Text — free to overlap the image; always layered above it, staggered in on load */}
           <motion.div
-            className="relative z-10 text-white max-w-3xl"
+            className="relative z-10 text-white max-w-2xl lg:max-w-3xl"
             variants={reduce ? undefined : heroContainer}
             initial={reduce ? false : "hidden"}
             animate={reduce ? false : "show"}
@@ -98,7 +98,7 @@ function Hero() {
             <motion.span variants={reduce ? undefined : heroItem} className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
               <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Kementerian Sumber Manusia
             </motion.span>
-            <motion.h1 variants={reduce ? undefined : heroItem} className="mt-6 text-[48px] md:text-[74px] leading-[1.0] tracking-tight">
+            <motion.h1 variants={reduce ? undefined : heroItem} className="mt-6 text-[40px] sm:text-[52px] lg:text-[60px] xl:text-[72px] leading-[1.03] tracking-tight">
               Building Malaysia's<br />
               <span className="editorial text-accent-lime">future</span> workforce
             </motion.h1>
