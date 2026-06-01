@@ -186,6 +186,8 @@ function TwoPaths() {
             cta={{ to: "/register", label: "Create your profile" }}
             iconBg="bg-accent-lime/40 text-ink"
             icon={<Briefcase className="h-5 w-5" />}
+            image="/Jobseekers.png"
+            overlay="bg-gradient-to-r from-white/95 via-white/55 to-transparent"
             delay={0}
           />
           <PathCard
@@ -195,6 +197,8 @@ function TwoPaths() {
             cta={{ to: "/register", label: "Post your first vacancy" }}
             iconBg="bg-brand text-white"
             icon={<Building2 className="h-5 w-5" />}
+            image="/employer.png"
+            overlay="bg-gradient-to-r from-ink/95 via-ink/55 to-transparent"
             dark
             delay={0.1}
           />
@@ -204,26 +208,30 @@ function TwoPaths() {
   );
 }
 
-function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0 }: {
+function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, image, overlay }: {
   role: string; title: string; bullets: string[]; cta: { to: string; label: string };
-  iconBg: string; icon: React.ReactNode; dark?: boolean; delay?: number;
+  iconBg: string; icon: React.ReactNode; dark?: boolean; delay?: number; image: string; overlay: string;
 }) {
   return (
-    <RevealLift delay={delay} className={`rounded-3xl p-8 md:p-10 border ${dark ? "bg-ink text-white border-ink" : "bg-surface-alt border-border"}`}>
-      <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${iconBg}`}>{icon}</div>
-      <div className={`mt-6 text-xs uppercase tracking-wider ${dark ? "text-white/60" : "text-muted-ink"}`}>{role}</div>
-      <h3 className="mt-2 text-2xl md:text-3xl tracking-tight">{title}</h3>
-      <ul className="mt-6 space-y-3">
-        {bullets.map((b) => (
-          <li key={b} className={`flex items-start gap-3 text-[15px] ${dark ? "text-white/85" : "text-ink/80"}`}>
-            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent-lime shrink-0" />
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-      <Link to={cta.to} className={`mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-full ${dark ? "bg-accent-lime text-accent-lime-foreground" : "bg-brand text-brand-foreground"}`}>
-        {cta.label} <ArrowRight className="h-4 w-4" />
-      </Link>
+    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-ink" : "border-border"}`}>
+      <img src={image} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none select-none" />
+      <div aria-hidden className={`absolute inset-0 ${overlay}`} />
+      <div className="relative z-10">
+        <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${iconBg}`}>{icon}</div>
+        <div className={`mt-6 text-xs uppercase tracking-wider ${dark ? "text-white/60" : "text-muted-ink"}`}>{role}</div>
+        <h3 className="mt-2 text-2xl md:text-3xl tracking-tight">{title}</h3>
+        <ul className="mt-6 space-y-3">
+          {bullets.map((b) => (
+            <li key={b} className={`flex items-start gap-3 text-[15px] ${dark ? "text-white/85" : "text-ink/80"}`}>
+              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent-lime shrink-0" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+        <Link to={cta.to} className={`mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-full ${dark ? "bg-accent-lime text-accent-lime-foreground" : "bg-brand text-brand-foreground"}`}>
+          {cta.label} <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
     </RevealLift>
   );
 }
