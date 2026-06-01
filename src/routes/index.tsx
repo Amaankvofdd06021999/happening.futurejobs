@@ -223,9 +223,9 @@ function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, im
 }) {
   const overlay = dark
     ? "bg-gradient-to-b from-[#050b18]/95 via-[#050b18]/92 to-[#050b18]/70 lg:bg-gradient-to-r lg:from-[#050b18] lg:via-[#050b18]/92 lg:to-[#050b18]/35"
-    : "bg-gradient-to-b from-[#f4f8fc]/95 via-[#f4f8fc]/90 to-[#f4f8fc]/70 lg:bg-gradient-to-r lg:from-[#f4f8fc] lg:via-[#f4f8fc]/90 lg:to-[#f4f8fc]/20";
+    : "bg-gradient-to-b from-surface-alt/95 via-surface-alt/90 to-surface-alt/70 lg:bg-gradient-to-r lg:from-surface-alt lg:via-surface-alt/90 lg:to-surface-alt/20";
   return (
-    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-panel bg-[#050b18]" : "border-border bg-[#f4f8fc]"}`}>
+    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-panel bg-[#050b18]" : "text-ink border-border bg-surface-alt"}`}>
       <img
         src={image}
         alt=""
