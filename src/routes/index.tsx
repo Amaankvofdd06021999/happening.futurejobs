@@ -69,7 +69,7 @@ function Hero() {
   return (
     <section className="relative px-6 pt-12 pb-20">
       <div className="mx-auto max-w-7xl">
-        <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft p-8 md:p-14 min-h-[560px]">
+        <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft p-8 md:p-14 min-h-[560px] md:min-h-[672px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
             style={{
               background:
@@ -84,12 +84,10 @@ function Hero() {
             animate={reduce ? false : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: easeOut, delay: 0.1 }}
           >
-            <motion.img
+            <img
               src="/hero-girl.png"
               alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
               className="h-full w-auto pointer-events-none select-none"
-              animate={reduce ? undefined : { y: [0, -10, 0] }}
-              transition={reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
 
