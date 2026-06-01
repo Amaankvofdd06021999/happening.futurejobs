@@ -22,7 +22,10 @@ export default defineConfig({
     preset: "vercel",
     output: {
       dir: ".vercel/output",
-      serverDir: ".vercel/output/functions/__nitro.func",
+      // Must be "__server.func": the Vercel preset hardcodes a `/(.*) -> /__server`
+      // route in config.json, so Vercel resolves the function at functions/__server.func.
+      // A different name (e.g. __nitro.func) makes every route 404.
+      serverDir: ".vercel/output/functions/__server.func",
       publicDir: ".vercel/output/static",
     },
   },
