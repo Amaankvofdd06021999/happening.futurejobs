@@ -187,6 +187,11 @@
   letter-spacing: -0.01em;
 }
 
+@keyframes mfj-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 @layer components {
   .input {
     width: 100%;
@@ -206,4 +211,22 @@
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 18%, transparent);
   }
   textarea.input { height: auto; padding: 0.75rem 0.875rem; }
+
+  /* Infinite logo marquee: two identical tracks translated -50% for a seamless loop. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: mfj-marquee 32s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
 }

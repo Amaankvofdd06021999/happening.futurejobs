@@ -151,15 +151,22 @@ function Hero() {
 }
 
 function TrustBand() {
+  const logos = ["KESUMA", "PERKESO", "TalentCorp", "MDEC", "HRD Corp", "MAMPU"];
   return (
     <section className="px-6 pb-16">
       <div className="mx-auto max-w-7xl">
         <Reveal className="text-center text-xs uppercase tracking-wider text-muted-ink mb-6">In partnership with</Reveal>
         <Reveal delay={0.05}>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-60 text-ink/70">
-            {["KESUMA", "PERKESO", "TalentCorp", "MDEC", "HRD Corp", "MAMPU"].map((n) => (
-              <span key={n} className="text-sm tracking-wide">{n}</span>
-            ))}
+          <div className="marquee-mask overflow-hidden">
+            <div className="marquee-track">
+              {[0, 1].map((copy) => (
+                <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center gap-x-12 pr-12">
+                  {logos.map((n) => (
+                    <li key={n} className="text-sm tracking-wide text-ink/55 whitespace-nowrap">{n}</li>
+                  ))}
+                </ul>
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>
@@ -178,7 +185,7 @@ function TwoPaths() {
             <span className="editorial text-brand">employers</span>.
           </h2>
         </Reveal>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-6">
           <PathCard
             role="Jobseekers"
             title="Find work that fits your future"
@@ -187,7 +194,6 @@ function TwoPaths() {
             iconBg="bg-accent-lime/40 text-ink"
             icon={<Briefcase className="h-5 w-5" />}
             image="/Jobseekers.png"
-            overlay="bg-gradient-to-r from-white/95 via-white/55 to-transparent"
             delay={0}
           />
           <PathCard
@@ -198,7 +204,6 @@ function TwoPaths() {
             iconBg="bg-brand text-white"
             icon={<Building2 className="h-5 w-5" />}
             image="/employer.png"
-            overlay="bg-gradient-to-r from-ink/95 via-ink/55 to-transparent"
             dark
             delay={0.1}
           />
@@ -208,13 +213,21 @@ function TwoPaths() {
   );
 }
 
-function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, image, overlay }: {
+function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, image }: {
   role: string; title: string; bullets: string[]; cta: { to: string; label: string };
-  iconBg: string; icon: React.ReactNode; dark?: boolean; delay?: number; image: string; overlay: string;
+  iconBg: string; icon: React.ReactNode; dark?: boolean; delay?: number; image: string;
 }) {
+  const overlay = dark
+    ? "bg-gradient-to-b from-[#050b18]/95 via-[#050b18]/92 to-[#050b18]/70 lg:bg-gradient-to-r lg:from-[#050b18] lg:via-[#050b18]/92 lg:to-[#050b18]/35"
+    : "bg-gradient-to-b from-[#f4f8fc]/95 via-[#f4f8fc]/90 to-[#f4f8fc]/70 lg:bg-gradient-to-r lg:from-[#f4f8fc] lg:via-[#f4f8fc]/90 lg:to-[#f4f8fc]/20";
   return (
-    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-ink" : "border-border"}`}>
-      <img src={image} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-right pointer-events-none select-none" />
+    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-ink bg-[#050b18]" : "border-border bg-[#f4f8fc]"}`}>
+      <img
+        src={image}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 h-full w-full object-cover object-right opacity-25 lg:opacity-100 pointer-events-none select-none"
+      />
       <div aria-hidden className={`absolute inset-0 ${overlay}`} />
       <div className="relative z-10">
         <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${iconBg}`}>{icon}</div>
