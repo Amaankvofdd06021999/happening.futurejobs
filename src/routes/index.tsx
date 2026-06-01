@@ -63,39 +63,36 @@ function Hero() {
             }}
           />
 
-          {/* Hero composition — sits freely on the right, bleeding to the bottom edge within the rounded rectangle */}
+          {/* Hero composition — full height of the rectangle, anchored right, sitting behind the text */}
           <img
             src="/hero-girl.png"
             alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
-            className="hidden md:block absolute bottom-0 right-2 lg:right-8 h-[460px] lg:h-[540px] w-auto object-contain object-bottom pointer-events-none select-none"
+            className="hidden md:block absolute inset-y-0 right-0 z-0 h-full w-auto pointer-events-none select-none"
           />
 
-          <div className="relative grid md:grid-cols-2 gap-10 items-center">
-            <div className="text-white">
-              <span className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Kementerian Sumber Manusia
-              </span>
-              <h1 className="mt-6 text-[44px] md:text-[64px] leading-[1.02] tracking-tight">
-                Building Malaysia's <span className="editorial text-accent-lime">future</span> workforce
-              </h1>
-              <p className="mt-5 text-white/80 text-lg max-w-lg">
-                One national portal — two clear paths. Find work or hire talent with practical, AI-assisted tools that save real time.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
-                  Find a job <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur">
-                  Hire talent
-                </Link>
-              </div>
-              <div className="mt-6 text-sm text-white/70">
-                Trusted by 4,900+ employers · Rated 4.9/5
-              </div>
+          {/* Text — free to overlap the image; always layered above it */}
+          <div className="relative z-10 text-white max-w-2xl">
+            <span className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Kementerian Sumber Manusia
+            </span>
+            <h1 className="mt-6 text-[44px] md:text-[64px] leading-[1.02] tracking-tight">
+              Building Malaysia's<br />
+              <span className="editorial text-accent-lime">future</span> workforce
+            </h1>
+            <p className="mt-5 text-white/80 text-lg max-w-lg">
+              One national portal — two clear paths. Find work or hire talent with practical, AI-assisted tools that save real time.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
+                Find a job <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur">
+                Hire talent
+              </Link>
             </div>
-
-            {/* Spacer: the hero image is absolutely positioned to bleed to the rectangle's edge */}
-            <div className="hidden md:block" aria-hidden />
+            <div className="mt-6 text-sm text-white/70">
+              Trusted by 4,900+ employers · Rated 4.9/5
+            </div>
           </div>
         </div>
       </div>
