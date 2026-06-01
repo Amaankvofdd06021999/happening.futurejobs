@@ -93,7 +93,7 @@ function Hero() {
 
           {/* Text — free to overlap the image; always layered above it, staggered in on load */}
           <motion.div
-            className="relative z-10 text-white max-w-2xl"
+            className="relative z-10 text-white max-w-3xl"
             variants={reduce ? undefined : heroContainer}
             initial={reduce ? false : "hidden"}
             animate={reduce ? false : "show"}
@@ -101,14 +101,14 @@ function Hero() {
             <motion.span variants={reduce ? undefined : heroItem} className="inline-flex items-center gap-2 text-[11px] tracking-wider uppercase bg-white/15 backdrop-blur px-3 py-1 rounded-full">
               <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Kementerian Sumber Manusia
             </motion.span>
-            <motion.h1 variants={reduce ? undefined : heroItem} className="mt-6 text-[44px] md:text-[64px] leading-[1.02] tracking-tight">
+            <motion.h1 variants={reduce ? undefined : heroItem} className="mt-6 text-[48px] md:text-[74px] leading-[1.0] tracking-tight">
               Building Malaysia's<br />
               <span className="editorial text-accent-lime">future</span> workforce
             </motion.h1>
             <motion.p variants={reduce ? undefined : heroItem} className="mt-5 text-white/80 text-lg max-w-lg">
               One national portal — two clear paths. Find work or hire talent with practical, AI-assisted tools that save real time.
             </motion.p>
-            <motion.div variants={reduce ? undefined : heroItem} className="mt-8 flex flex-wrap gap-3">
+            <motion.div variants={reduce ? undefined : heroItem} className="mt-12 md:mt-14 flex flex-wrap gap-3">
               <motion.span whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }} className="inline-flex">
                 <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
                   Find a job <ArrowRight className="h-4 w-4" />
@@ -122,6 +122,26 @@ function Hero() {
             </motion.div>
             <motion.div variants={reduce ? undefined : heroItem} className="mt-6 text-sm text-white/70">
               Trusted by 4,900+ employers · Rated 4.9/5
+            </motion.div>
+            <motion.div variants={reduce ? undefined : heroItem} className="mt-5 flex items-center gap-3">
+              <div className="flex -space-x-3">
+                {[
+                  { i: "AR", c: "bg-accent-lime text-accent-lime-foreground" },
+                  { i: "NA", c: "bg-white text-brand" },
+                  { i: "MT", c: "bg-brand-soft text-white" },
+                  { i: "PD", c: "bg-accent-lime/80 text-accent-lime-foreground" },
+                ].map((a) => (
+                  <span
+                    key={a.i}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-xs ring-2 ring-brand ${a.c}`}
+                  >
+                    {a.i}
+                  </span>
+                ))}
+              </div>
+              <span className="text-sm text-white/70">
+                Joined by <span className="text-white">520k+</span> jobseekers
+              </span>
             </motion.div>
           </motion.div>
         </div>
