@@ -68,7 +68,7 @@ function Profile() {
         </section>
 
         <aside className="space-y-5">
-          <div className="rounded-2xl bg-ink text-white p-6">
+          <div className="rounded-2xl bg-panel text-white p-6">
             <div className="flex items-center gap-2 text-accent-lime text-xs uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5" /> Skills to improve
             </div>

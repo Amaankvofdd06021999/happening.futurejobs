@@ -181,6 +181,26 @@ inside a `rounded-full bg-surface-alt p-1` track.
 
 ---
 
+## 5.5 AI workflow kit ([`src/components/ai/`](src/components/ai/))
+
+The three AI workflows (jobseeker · employer · case officer) share one component kit —
+**reuse it, don't reinvent these per screen.** All honour the "AI panels are dark" + single-lime rules.
+
+| Component | Use |
+|---|---|
+| `WorkflowBanner` | Slim dark band at the top of a workflow screen: which workflow + step, link to next. |
+| `AIPanel` / `AIPanelMobileTrigger` | The right-side AI panel. **Always pair them**: `AIPanel` is the sticky dark panel on `lg+`; `AIPanelMobileTrigger` is the floating "Ask AI" button → bottom sheet below `lg`. Same `messages`/`suggestions` props. This is the tender's mandated mobile adaptation. |
+| `WhyButton` | Inline explainable-AI "Why?" link — reveal the rationale behind any AI finding. |
+| `ScoreBar` / `ScoreRing` | Tiered scores (≥85 lime · 70–84 blue · <70 muted via `scoreTier`). |
+| `SkillsRadar` / `DemandChart` | recharts visualisations (skills demand-vs-supply radar; demand trend area). |
+| `TrackedChange` | Original → Improved diff + rationale + Accept/Keep. Side-by-side on web, stacked on mobile. |
+| `BiasFlag` / `BiasNote` | Severity-tiered bias callouts (rose/amber used **only** for severity, never as a brand accent). |
+| `WorkflowStepper` | Multi-step narratives (e.g. RAG1–5) tied into one continuous story. |
+
+> **Responsive rule for AI screens:** main content + `AIPanel` live in a
+> `grid lg:grid-cols-[1fr_380px]`; render `AIPanelMobileTrigger` once for the small-screen path.
+> Dashboard pages already get `p-4 md:p-8` padding from `DashLayout` — screens add none.
+
 ## 6. Layout archetypes
 
 | Screen type | Pattern |

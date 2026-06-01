@@ -151,7 +151,7 @@ function LoginPage() {
 
 function RoleTab({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
-    <button type="button" onClick={onClick} className={`px-4 py-1.5 rounded-full transition ${active ? "bg-ink text-white" : "text-ink/70 hover:text-ink"}`}>
+    <button type="button" onClick={onClick} className={`px-4 py-1.5 rounded-full transition ${active ? "bg-panel text-white" : "text-ink/70 hover:text-ink"}`}>
       {children}
     </button>
   );

@@ -63,8 +63,8 @@ function RegisterPage() {
           <h1 className="mt-2 text-3xl tracking-tight">Get started in under a minute</h1>
 
           <div className="mt-6 inline-flex rounded-full bg-surface-alt p-1 text-sm">
-            <button type="button" onClick={() => setRole("jobseeker")} className={`px-4 py-1.5 rounded-full ${role === "jobseeker" ? "bg-ink text-white" : "text-ink/70"}`}>Jobseeker</button>
-            <button type="button" onClick={() => setRole("employer")} className={`px-4 py-1.5 rounded-full ${role === "employer" ? "bg-ink text-white" : "text-ink/70"}`}>Employer</button>
+            <button type="button" onClick={() => setRole("jobseeker")} className={`px-4 py-1.5 rounded-full ${role === "jobseeker" ? "bg-panel text-white" : "text-ink/70"}`}>Jobseeker</button>
+            <button type="button" onClick={() => setRole("employer")} className={`px-4 py-1.5 rounded-full ${role === "employer" ? "bg-panel text-white" : "text-ink/70"}`}>Employer</button>
           </div>
 
           <form onSubmit={onSubmit} className="mt-6 space-y-4">

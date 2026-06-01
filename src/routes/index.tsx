@@ -3,6 +3,7 @@ import { ArrowRight, Briefcase, Building2, FileText, Users, Search } from "lucid
 import { motion, useReducedMotion } from "framer-motion";
 import { Logo } from "@/components/Logo";
 import { Reveal, RevealLift, easeOut } from "@/components/motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,6 +53,7 @@ function Nav() {
           <button className="text-ink/70">EN ▾</button>
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Link to="/login" className="text-sm px-4 py-2 rounded-full text-ink hover:bg-surface-alt">Log in</Link>
           <motion.span whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-flex">
             <Link to="/register" className="text-sm px-4 py-2 rounded-full bg-accent-lime text-accent-lime-foreground inline-flex items-center gap-1.5">
@@ -223,7 +225,7 @@ function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, im
     ? "bg-gradient-to-b from-[#050b18]/95 via-[#050b18]/92 to-[#050b18]/70 lg:bg-gradient-to-r lg:from-[#050b18] lg:via-[#050b18]/92 lg:to-[#050b18]/35"
     : "bg-gradient-to-b from-[#f4f8fc]/95 via-[#f4f8fc]/90 to-[#f4f8fc]/70 lg:bg-gradient-to-r lg:from-[#f4f8fc] lg:via-[#f4f8fc]/90 lg:to-[#f4f8fc]/20";
   return (
-    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-ink bg-[#050b18]" : "border-border bg-[#f4f8fc]"}`}>
+    <RevealLift delay={delay} className={`relative overflow-hidden rounded-3xl p-8 md:p-10 border min-h-[440px] ${dark ? "text-white border-panel bg-[#050b18]" : "border-border bg-[#f4f8fc]"}`}>
       <img
         src={image}
         alt=""
@@ -259,7 +261,7 @@ function AIBand() {
   ];
   return (
     <section id="ai" className="px-6 py-20">
-      <div className="mx-auto max-w-7xl rounded-[32px] bg-ink text-white p-10 md:p-16">
+      <div className="mx-auto max-w-7xl rounded-[32px] bg-panel text-white p-10 md:p-16">
         <Reveal className="max-w-3xl">
           <div className="text-xs uppercase tracking-wider text-accent-lime">• Practical AI</div>
           <h2 className="mt-3 text-4xl md:text-5xl tracking-tight">
@@ -319,7 +321,7 @@ function Stats() {
   const stats = [
     { n: "520k+", t: "Active jobseekers", style: "bg-surface-alt" },
     { n: "100%", t: "Verified employers", style: "bg-accent-lime text-accent-lime-foreground" },
-    { n: "120+", t: "Government partners", style: "bg-ink text-white" },
+    { n: "120+", t: "Government partners", style: "bg-panel text-white" },
     { n: "38k", t: "Open vacancies", style: "bg-surface-alt" },
   ];
   return (

@@ -19,9 +19,9 @@ function Candidates() {
       <PageHeader title="Candidates" subtitle="Auto-ranked by AI fit — review the shortlist in minutes." />
 
       <div className="flex items-center gap-2 mb-4">
-        <button onClick={() => setVacancy("all")} className={`px-3 py-1.5 rounded-full text-xs ${vacancy === "all" ? "bg-ink text-white" : "bg-surface border border-border"}`}>All roles</button>
+        <button onClick={() => setVacancy("all")} className={`px-3 py-1.5 rounded-full text-xs ${vacancy === "all" ? "bg-panel text-white" : "bg-surface border border-border"}`}>All roles</button>
         {VACANCIES.filter((v) => v.status === "Active").map((v) => (
-          <button key={v.id} onClick={() => setVacancy(v.id)} className={`px-3 py-1.5 rounded-full text-xs ${vacancy === v.id ? "bg-ink text-white" : "bg-surface border border-border"}`}>{v.title}</button>
+          <button key={v.id} onClick={() => setVacancy(v.id)} className={`px-3 py-1.5 rounded-full text-xs ${vacancy === v.id ? "bg-panel text-white" : "bg-surface border border-border"}`}>{v.title}</button>
         ))}
       </div>
 
@@ -61,7 +61,7 @@ function Candidates() {
                 <button className="px-4 py-2 rounded-full bg-surface-alt text-sm">Message</button>
               </div>
             </div>
-            <div className="rounded-2xl bg-ink text-white p-6">
+            <div className="rounded-2xl bg-panel text-white p-6">
               <div className="flex items-center gap-2 text-accent-lime text-xs uppercase tracking-wider">
                 <Sparkles className="h-3.5 w-3.5" /> CV ↔ JD analysis
               </div>

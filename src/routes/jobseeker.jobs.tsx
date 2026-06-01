@@ -62,7 +62,7 @@ function Jobs() {
       <div className="mt-3 flex flex-wrap gap-2">
         {(["Full-time", "Part-time", "Contract", "Internship"] as const).map((t) => (
           <button key={t} onClick={() => toggleType(t)}
-            className={`px-3 py-1.5 rounded-full text-xs ${filters.types.includes(t) ? "bg-ink text-white" : "bg-surface text-ink border border-border"}`}>
+            className={`px-3 py-1.5 rounded-full text-xs ${filters.types.includes(t) ? "bg-panel text-white" : "bg-surface text-ink border border-border"}`}>
             {t}
           </button>
         ))}
@@ -102,7 +102,7 @@ function Jobs() {
         </div>
 
         <aside className="space-y-4">
-          <div className="rounded-2xl bg-ink text-white p-5">
+          <div className="rounded-2xl bg-panel text-white p-5">
             <div className="flex items-center gap-2 text-accent-lime text-xs uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5" /> AI Job-fit
             </div>

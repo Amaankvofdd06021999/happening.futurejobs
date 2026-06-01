@@ -45,13 +45,13 @@ function Overview() {
                   <div className="text-sm text-muted-ink">{j.company} · {j.location} · {j.salary}</div>
                 </div>
                 <MatchBadge match={j.match} />
-                <button className="px-3 py-1.5 rounded-full bg-ink text-white text-sm">View</button>
+                <button className="px-3 py-1.5 rounded-full bg-panel text-white text-sm">View</button>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-2xl bg-ink text-white p-6">
+        <div className="rounded-2xl bg-panel text-white p-6">
           <div className="flex items-center gap-2 text-accent-lime text-xs uppercase tracking-wider">
             <Sparkles className="h-3.5 w-3.5" /> AI Career Insight
           </div>

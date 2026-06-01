@@ -1,6 +1,8 @@
 # MyFutureJobs Gov — Demo Project Specification
 
-A modernised reimagination of Malaysia's national employment portal (myfuturejobs.gov.my). This document defines the design direction, screen inventory, and per-page content for a working Next.js demo targeting non-technical, business-side government stakeholders.
+A modernised reimagination of Malaysia's national employment portal (myfuturejobs.gov.my). This document defines the design direction, screen inventory, and per-page content for a working demo targeting non-technical, business-side government stakeholders.
+
+> **Post-release scope:** see [`PERKESO-Tender-Addendum.md`](PERKESO-Tender-Addendum.md) for the expanded scope folded in after the tender was released — the three end-to-end AI workflows (CeeVee · Atlas · RAG), the Case Officer persona, responsive web + mobile, and the Tier-1 render priority. That addendum supersedes the AI-panel notes below where they differ.
 
 ---
 

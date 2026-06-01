@@ -36,7 +36,7 @@ function Assistant() {
           </div>
           <div className="mt-4 flex items-center gap-2 rounded-xl bg-surface-alt p-2">
             <input placeholder="Ask anything about your career…" className="flex-1 bg-transparent px-2 outline-none text-sm" />
-            <button className="px-3 py-2 rounded-lg bg-ink text-white text-sm inline-flex items-center gap-1.5">
+            <button className="px-3 py-2 rounded-lg bg-panel text-white text-sm inline-flex items-center gap-1.5">
               <Send className="h-3.5 w-3.5" /> Send
             </button>
           </div>

@@ -65,7 +65,7 @@ function Vacancies() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm flex items-center justify-center p-6" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-panel/40 backdrop-blur-sm flex items-center justify-center p-6" onClick={() => setOpen(false)}>
           <div className="bg-surface rounded-3xl max-w-2xl w-full p-8" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-2xl tracking-tight">New vacancy</h2>
             <p className="text-sm text-muted-ink mt-1">Tell us the role and we'll draft the JD.</p>
@@ -77,7 +77,7 @@ function Vacancies() {
             <div className="mt-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Job description</span>
-                <button onClick={generate} className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-ink text-white">
+                <button onClick={generate} className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-panel text-white">
                   <Sparkles className="h-3.5 w-3.5 text-accent-lime" /> Generate with AI
                 </button>
               </div>
