@@ -77,19 +77,16 @@ function Hero() {
             }}
           />
 
-          {/* Hero composition — full height of the rectangle, anchored right, behind the text */}
-          <motion.div
-            className="hidden md:block absolute inset-y-0 right-0 z-0"
+          {/* Hero composition — fills (and slightly bleeds past) the rectangle height,
+              anchored bottom-right so the squarer asset's padding is cropped, not shrunk. */}
+          <motion.img
+            src="/hero-girl.png"
+            alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
+            className="hidden md:block absolute bottom-0 right-0 z-0 h-[112%] w-auto object-bottom pointer-events-none select-none"
             initial={reduce ? false : { opacity: 0, x: 48 }}
             animate={reduce ? false : { opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: easeOut, delay: 0.1 }}
-          >
-            <img
-              src="/hero-girl.png"
-              alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
-              className="h-full w-auto pointer-events-none select-none"
-            />
-          </motion.div>
+          />
 
           {/* Text — free to overlap the image; always layered above it, staggered in on load */}
           <motion.div
