@@ -71,7 +71,7 @@ function Hero() {
   return (
     <section className="relative px-6 pt-12 pb-20">
       <div className="mx-auto max-w-7xl">
-        <div className="relative flex flex-col justify-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand via-brand to-brand-soft p-8 sm:p-10 lg:p-14 min-h-[500px] md:min-h-[560px] lg:min-h-[672px]">
+        <div className="relative flex flex-col justify-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-static via-brand-static to-brand-static-soft p-8 sm:p-10 lg:p-14 min-h-[500px] md:min-h-[560px] lg:min-h-[672px]">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
             style={{
               background:
@@ -114,8 +114,8 @@ function Hero() {
                 </Link>
               </motion.span>
               <motion.span whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }} className="inline-flex">
-                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur">
-                  Hire talent
+                <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-black text-white hover:bg-black/90">
+                  Hire talent <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.span>
             </motion.div>
@@ -126,13 +126,13 @@ function Hero() {
               <div className="flex -space-x-3">
                 {[
                   { i: "AR", c: "bg-accent-lime text-accent-lime-foreground" },
-                  { i: "NA", c: "bg-white text-brand" },
-                  { i: "MT", c: "bg-brand-soft text-white" },
+                  { i: "NA", c: "bg-white text-brand-static" },
+                  { i: "MT", c: "bg-brand-static-soft text-white" },
                   { i: "PD", c: "bg-accent-lime/80 text-accent-lime-foreground" },
                 ].map((a) => (
                   <span
                     key={a.i}
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-xs ring-2 ring-brand ${a.c}`}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-xs ring-2 ring-brand-static ${a.c}`}
                   >
                     {a.i}
                   </span>

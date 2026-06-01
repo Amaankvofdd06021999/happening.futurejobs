@@ -62,6 +62,8 @@
   --color-brand: var(--brand);
   --color-brand-soft: var(--brand-soft);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-static: var(--brand-static);
+  --color-brand-static-soft: var(--brand-static-soft);
   --color-accent-lime: var(--accent-lime);
   --color-accent-lime-foreground: var(--accent-lime-foreground);
   --color-ink: var(--ink);
@@ -115,6 +117,10 @@
   --brand-foreground: oklch(0.99 0 0);
   --accent-lime: oklch(0.93 0.18 130);      /* spring lime */
   --accent-lime-foreground: oklch(0.22 0.05 260);
+  /* Theme-static brand blue — same in light + dark (used by the landing hero,
+   * which must not change colour between modes). Intentionally NOT overridden in .dark. */
+  --brand-static: oklch(0.36 0.18 265);
+  --brand-static-soft: oklch(0.55 0.18 262);
   --ink: oklch(0.18 0.025 260);
   --muted-ink: oklch(0.5 0.02 258);
   --surface: oklch(1 0 0);
