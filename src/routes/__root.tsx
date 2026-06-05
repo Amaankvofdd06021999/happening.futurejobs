@@ -79,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MyFutureJobs Gov — Malaysia's modern path to work" },
+      { title: "MYFutureJobs — Malaysia's modern path to work" },
       { name: "description", content: "Malaysia's national employment portal — connecting jobseekers and employers with practical AI-assisted hiring and career tools." },
-      { name: "author", content: "MyFutureJobs Gov" },
-      { property: "og:title", content: "MyFutureJobs Gov — Malaysia's modern path to work" },
+      { name: "author", content: "MYFutureJobs" },
+      { property: "og:title", content: "MYFutureJobs — Malaysia's modern path to work" },
       { property: "og:description", content: "Find your next role or your next hire on Malaysia's modernised national employment portal." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

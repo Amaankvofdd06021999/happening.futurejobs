@@ -2,13 +2,14 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { ChatWidget } from "@/components/ai/ChatWidget";
 import { useAuth, type Role } from "@/lib/auth";
 
 export const Route = createFileRoute("/register")({
   validateSearch: (s: Record<string, unknown>): { role?: Role } => ({
     role: s.role === "employer" ? "employer" : "jobseeker",
   }),
-  head: () => ({ meta: [{ title: "Create account — MyFutureJobs Gov" }] }),
+  head: () => ({ meta: [{ title: "Create account — MYFutureJobs" }] }),
   component: RegisterPage,
 });
 
@@ -35,6 +36,7 @@ function RegisterPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen grid md:grid-cols-2 bg-surface">
       <div className="relative hidden md:flex flex-col justify-between p-10 text-white overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft">
         <div aria-hidden className="absolute inset-0 opacity-60" style={{
@@ -43,7 +45,7 @@ function RegisterPage() {
         <Logo light />
         <div className="relative max-w-md">
           <h2 className="text-4xl tracking-tight leading-tight">
-            {role === "employer" ? <>Hire faster with <span className="editorial text-accent-lime">MyFutureJobs</span>.</> : <>A <span className="editorial text-accent-lime">friction-free</span> way to find your next role.</>}
+            {role === "employer" ? <>Hire faster with <span className="editorial text-accent-lime">MYFutureJobs</span>.</> : <>A <span className="editorial text-accent-lime">friction-free</span> way to find your next role.</>}
           </h2>
           <ul className="mt-6 space-y-2 text-white/85 text-[15px]">
             {(role === "employer"
@@ -53,7 +55,7 @@ function RegisterPage() {
             ))}
           </ul>
         </div>
-        <div className="relative text-xs text-white/60">© MyFutureJobs Gov</div>
+        <div className="relative text-xs text-white/60">© MYFutureJobs</div>
       </div>
 
       <div className="flex flex-col p-6 md:p-10">
@@ -101,6 +103,8 @@ function RegisterPage() {
         </div>
       </div>
     </div>
+    <ChatWidget />
+    </>
   );
 }
 

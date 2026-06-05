@@ -92,10 +92,12 @@ export interface Application {
   stage: "Applied" | "Reviewed" | "Interview" | "Outcome";
   appliedOn: string;
   next: string;
+  /** Travel incentive unlocked when an employer schedules an in-person interview. */
+  incentive?: string;
 }
 
 export const APPLICATIONS: Application[] = [
-  { id: "a1", jobId: "j1", stage: "Interview", appliedOn: "12 May", next: "Interview · 5 Jun" },
+  { id: "a1", jobId: "j1", stage: "Interview", appliedOn: "12 May", next: "Interview · 5 Jun", incentive: "RM15 ride voucher" },
   { id: "a2", jobId: "j2", stage: "Reviewed", appliedOn: "14 May", next: "Awaiting feedback" },
   { id: "a3", jobId: "j4", stage: "Applied", appliedOn: "20 May", next: "In screening" },
   { id: "a4", jobId: "j3", stage: "Outcome", appliedOn: "1 May", next: "Offer received" },
@@ -561,4 +563,148 @@ export const RAG_SOURCING = {
     "Partner with 3 Klang Valley universities for a data-analyst graduate pipeline.",
     "Reskill adjacent talent (finance, reporting) — fastest route to close the cloud-data gap.",
   ],
+};
+
+/* ------------------------------------------------------------------ *
+ * Programs & events — promoted on the public home page.
+ * ------------------------------------------------------------------ */
+export type EventKind = "Career Carnival" | "Hiring Event" | "Career Fair" | "Training";
+
+export interface CareerEvent {
+  id: string;
+  kind: EventKind;
+  title: string;
+  date: string;
+  location: string;
+  mode: "In-person" | "Hybrid" | "Online";
+  blurb: string;
+  cta: string;
+}
+
+export const EVENTS: CareerEvent[] = [
+  {
+    id: "e1",
+    kind: "Career Carnival",
+    title: "MYFutureJobs Career Carnival — Klang Valley",
+    date: "21–22 Jun 2026",
+    location: "MITEC, Kuala Lumpur",
+    mode: "In-person",
+    blurb: "200+ hiring employers, on-the-spot interviews, and free CV clinics across two days.",
+    cta: "Reserve a spot",
+  },
+  {
+    id: "e2",
+    kind: "Hiring Event",
+    title: "Tech & Digital Mega Hiring Day",
+    date: "3 Jul 2026",
+    location: "Cyberjaya · Hybrid",
+    mode: "Hybrid",
+    blurb: "Meet engineering, data and product teams from 40+ companies hiring now.",
+    cta: "Register free",
+  },
+  {
+    id: "e3",
+    kind: "Training",
+    title: "AI for Jobseekers — Upskilling Bootcamp",
+    date: "Starts 14 Jul 2026",
+    location: "Online · 4 weeks",
+    mode: "Online",
+    blurb: "A free HRD Corp-claimable programme on practical AI skills employers want.",
+    cta: "Enrol now",
+  },
+  {
+    id: "e4",
+    kind: "Career Fair",
+    title: "Graduate Career Fair — Penang",
+    date: "26 Jul 2026",
+    location: "SPICE Arena, Penang",
+    mode: "In-person",
+    blurb: "Fresh-grad friendly roles, internships, and mentorship sessions with industry leaders.",
+    cta: "Get tickets",
+  },
+];
+
+/* ------------------------------------------------------------------ *
+ * Jobseeker profile enrichment — certifications, badges, training.
+ * ------------------------------------------------------------------ */
+export interface Certification {
+  id: string;
+  name: string;
+  issuer: string;
+  issued: string;
+  credentialId: string;
+  verified: boolean;
+}
+
+export const CERTIFICATIONS: Certification[] = [
+  { id: "c1", name: "Google Data Analytics Professional", issuer: "Google · Coursera", issued: "Mar 2025", credentialId: "GDA-4821-MY", verified: true },
+  { id: "c2", name: "Certified Business Analysis Professional (CBAP)", issuer: "IIBA", issued: "Nov 2024", credentialId: "IIBA-7733", verified: true },
+  { id: "c3", name: "Scrum Foundation (PSM I)", issuer: "Scrum.org", issued: "Jun 2024", credentialId: "PSM-19204", verified: false },
+];
+
+export interface AchievementBadge {
+  id: string;
+  label: string;
+  detail: string;
+  /** lucide icon name handled at the call site; kept as a hint key. */
+  icon: "trophy" | "flame" | "star" | "rocket" | "shield" | "target";
+  earned: boolean;
+}
+
+export const BADGES: AchievementBadge[] = [
+  { id: "b1", label: "Profile Pro", detail: "Reached 85%+ profile completeness", icon: "shield", earned: true },
+  { id: "b2", label: "Fast Responder", detail: "Replied to 5 employers within 24h", icon: "flame", earned: true },
+  { id: "b3", label: "Top 10% SQL", detail: "Skill verified above peer benchmark", icon: "star", earned: true },
+  { id: "b4", label: "Interview Ready", detail: "Completed 3 AI mock interviews", icon: "target", earned: true },
+  { id: "b5", label: "Lifelong Learner", detail: "Finish 2 recommended courses", icon: "rocket", earned: false },
+  { id: "b6", label: "Carnival Goer", detail: "Attend a MYFutureJobs hiring event", icon: "trophy", earned: false },
+];
+
+export interface TrainingRec {
+  id: string;
+  course: string;
+  provider: string;
+  why: string;
+  duration: string;
+  claimable: boolean;
+}
+
+export const RECOMMENDED_TRAINING: TrainingRec[] = [
+  { id: "t1", course: "Microsoft Power BI Data Analyst (PL-300)", provider: "Microsoft Learn", why: "Closes the top skill gap for Senior Business Analyst roles you're targeting.", duration: "~30 hrs", claimable: true },
+  { id: "t2", course: "Advanced SQL for Analytics", provider: "DataCamp", why: "Strengthens your strongest skill toward a 'Top 5%' recognition.", duration: "~12 hrs", claimable: false },
+  { id: "t3", course: "Stakeholder Leadership Essentials", provider: "LinkedIn Learning", why: "Builds the leadership signal recruiters look for at senior level.", duration: "~8 hrs", claimable: true },
+];
+
+export interface CareerStep {
+  role: string;
+  status: "current" | "next" | "future";
+  detail: string;
+  gaps?: string[];
+}
+
+export const CAREER_PROGRESSION: CareerStep[] = [
+  { role: "Business Analyst", status: "current", detail: "4 yrs · Kuala Lumpur" },
+  { role: "Senior Business Analyst", status: "next", detail: "Reachable in ~8 months", gaps: ["Power BI", "Stakeholder Leadership"] },
+  { role: "Lead Analyst / Product Owner", status: "future", detail: "1–2 year horizon", gaps: ["Roadmapping", "Team mentoring"] },
+];
+
+export interface LearningGoal {
+  id: string;
+  label: string;
+  progress: number;
+}
+
+export const LEARNING_GOALS: LearningGoal[] = [
+  { id: "g1", label: "Complete Power BI certification", progress: 45 },
+  { id: "g2", label: "Finish 3 AI mock interviews", progress: 100 },
+  { id: "g3", label: "Add a portfolio project", progress: 20 },
+];
+
+export const GAMIFICATION = {
+  level: 4,
+  levelLabel: "Rising Talent",
+  xp: 1840,
+  xpToNext: 2200,
+  streakDays: 6,
+  nextMilestone: "Add a portfolio link to reach Level 5 — Career Builder.",
 };

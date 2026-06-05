@@ -14,10 +14,12 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobseekerRouteImport } from './routes/jobseeker'
 import { Route as EmployerRouteImport } from './routes/employer'
 import { Route as CaseofficerRouteImport } from './routes/caseofficer'
+import { Route as AiRouteImport } from './routes/ai'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as JobseekerIndexRouteImport } from './routes/jobseeker.index'
 import { Route as EmployerIndexRouteImport } from './routes/employer.index'
 import { Route as CaseofficerIndexRouteImport } from './routes/caseofficer.index'
+import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as JobseekerProfileRouteImport } from './routes/jobseeker.profile'
 import { Route as JobseekerJobsRouteImport } from './routes/jobseeker.jobs'
 import { Route as JobseekerCeeveeRouteImport } from './routes/jobseeker.ceevee'
@@ -32,6 +34,11 @@ import { Route as EmployerCandidatesRouteImport } from './routes/employer.candid
 import { Route as EmployerAssistantRouteImport } from './routes/employer.assistant'
 import { Route as CaseofficerReportHubRouteImport } from './routes/caseofficer.report-hub'
 import { Route as CaseofficerKnowledgeBaseRouteImport } from './routes/caseofficer.knowledge-base'
+import { Route as AiTrainingRouteImport } from './routes/ai.training'
+import { Route as AiJobMatchRouteImport } from './routes/ai.job-match'
+import { Route as AiInterviewRouteImport } from './routes/ai.interview'
+import { Route as AiCvRouteImport } from './routes/ai.cv'
+import { Route as AiCareerRouteImport } from './routes/ai.career'
 import { Route as JobseekerCeeveeStatusRouteImport } from './routes/jobseeker.ceevee.status'
 import { Route as JobseekerCeeveeReviewRouteImport } from './routes/jobseeker.ceevee.review'
 
@@ -60,6 +67,11 @@ const CaseofficerRoute = CaseofficerRouteImport.update({
   path: '/caseofficer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiRoute = AiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,6 +91,11 @@ const CaseofficerIndexRoute = CaseofficerIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CaseofficerRoute,
+} as any)
+const AiIndexRoute = AiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AiRoute,
 } as any)
 const JobseekerProfileRoute = JobseekerProfileRouteImport.update({
   id: '/profile',
@@ -151,6 +168,31 @@ const CaseofficerKnowledgeBaseRoute =
     path: '/knowledge-base',
     getParentRoute: () => CaseofficerRoute,
   } as any)
+const AiTrainingRoute = AiTrainingRouteImport.update({
+  id: '/training',
+  path: '/training',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiJobMatchRoute = AiJobMatchRouteImport.update({
+  id: '/job-match',
+  path: '/job-match',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiInterviewRoute = AiInterviewRouteImport.update({
+  id: '/interview',
+  path: '/interview',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiCvRoute = AiCvRouteImport.update({
+  id: '/cv',
+  path: '/cv',
+  getParentRoute: () => AiRoute,
+} as any)
+const AiCareerRoute = AiCareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => AiRoute,
+} as any)
 const JobseekerCeeveeStatusRoute = JobseekerCeeveeStatusRouteImport.update({
   id: '/status',
   path: '/status',
@@ -164,11 +206,17 @@ const JobseekerCeeveeReviewRoute = JobseekerCeeveeReviewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai': typeof AiRouteWithChildren
   '/caseofficer': typeof CaseofficerRouteWithChildren
   '/employer': typeof EmployerRouteWithChildren
   '/jobseeker': typeof JobseekerRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/ai/career': typeof AiCareerRoute
+  '/ai/cv': typeof AiCvRoute
+  '/ai/interview': typeof AiInterviewRoute
+  '/ai/job-match': typeof AiJobMatchRoute
+  '/ai/training': typeof AiTrainingRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -183,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/jobseeker/ceevee': typeof JobseekerCeeveeRouteWithChildren
   '/jobseeker/jobs': typeof JobseekerJobsRoute
   '/jobseeker/profile': typeof JobseekerProfileRoute
+  '/ai/': typeof AiIndexRoute
   '/caseofficer/': typeof CaseofficerIndexRoute
   '/employer/': typeof EmployerIndexRoute
   '/jobseeker/': typeof JobseekerIndexRoute
@@ -193,6 +242,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/ai/career': typeof AiCareerRoute
+  '/ai/cv': typeof AiCvRoute
+  '/ai/interview': typeof AiInterviewRoute
+  '/ai/job-match': typeof AiJobMatchRoute
+  '/ai/training': typeof AiTrainingRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -207,6 +261,7 @@ export interface FileRoutesByTo {
   '/jobseeker/ceevee': typeof JobseekerCeeveeRouteWithChildren
   '/jobseeker/jobs': typeof JobseekerJobsRoute
   '/jobseeker/profile': typeof JobseekerProfileRoute
+  '/ai': typeof AiIndexRoute
   '/caseofficer': typeof CaseofficerIndexRoute
   '/employer': typeof EmployerIndexRoute
   '/jobseeker': typeof JobseekerIndexRoute
@@ -216,11 +271,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai': typeof AiRouteWithChildren
   '/caseofficer': typeof CaseofficerRouteWithChildren
   '/employer': typeof EmployerRouteWithChildren
   '/jobseeker': typeof JobseekerRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/ai/career': typeof AiCareerRoute
+  '/ai/cv': typeof AiCvRoute
+  '/ai/interview': typeof AiInterviewRoute
+  '/ai/job-match': typeof AiJobMatchRoute
+  '/ai/training': typeof AiTrainingRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -235,6 +296,7 @@ export interface FileRoutesById {
   '/jobseeker/ceevee': typeof JobseekerCeeveeRouteWithChildren
   '/jobseeker/jobs': typeof JobseekerJobsRoute
   '/jobseeker/profile': typeof JobseekerProfileRoute
+  '/ai/': typeof AiIndexRoute
   '/caseofficer/': typeof CaseofficerIndexRoute
   '/employer/': typeof EmployerIndexRoute
   '/jobseeker/': typeof JobseekerIndexRoute
@@ -245,11 +307,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai'
     | '/caseofficer'
     | '/employer'
     | '/jobseeker'
     | '/login'
     | '/register'
+    | '/ai/career'
+    | '/ai/cv'
+    | '/ai/interview'
+    | '/ai/job-match'
+    | '/ai/training'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -264,6 +332,7 @@ export interface FileRouteTypes {
     | '/jobseeker/ceevee'
     | '/jobseeker/jobs'
     | '/jobseeker/profile'
+    | '/ai/'
     | '/caseofficer/'
     | '/employer/'
     | '/jobseeker/'
@@ -274,6 +343,11 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/ai/career'
+    | '/ai/cv'
+    | '/ai/interview'
+    | '/ai/job-match'
+    | '/ai/training'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -288,6 +362,7 @@ export interface FileRouteTypes {
     | '/jobseeker/ceevee'
     | '/jobseeker/jobs'
     | '/jobseeker/profile'
+    | '/ai'
     | '/caseofficer'
     | '/employer'
     | '/jobseeker'
@@ -296,11 +371,17 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai'
     | '/caseofficer'
     | '/employer'
     | '/jobseeker'
     | '/login'
     | '/register'
+    | '/ai/career'
+    | '/ai/cv'
+    | '/ai/interview'
+    | '/ai/job-match'
+    | '/ai/training'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -315,6 +396,7 @@ export interface FileRouteTypes {
     | '/jobseeker/ceevee'
     | '/jobseeker/jobs'
     | '/jobseeker/profile'
+    | '/ai/'
     | '/caseofficer/'
     | '/employer/'
     | '/jobseeker/'
@@ -324,6 +406,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiRoute: typeof AiRouteWithChildren
   CaseofficerRoute: typeof CaseofficerRouteWithChildren
   EmployerRoute: typeof EmployerRouteWithChildren
   JobseekerRoute: typeof JobseekerRouteWithChildren
@@ -368,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseofficerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai': {
+      id: '/ai'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof AiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -395,6 +485,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/caseofficer/'
       preLoaderRoute: typeof CaseofficerIndexRouteImport
       parentRoute: typeof CaseofficerRoute
+    }
+    '/ai/': {
+      id: '/ai/'
+      path: '/'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AiIndexRouteImport
+      parentRoute: typeof AiRoute
     }
     '/jobseeker/profile': {
       id: '/jobseeker/profile'
@@ -494,6 +591,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseofficerKnowledgeBaseRouteImport
       parentRoute: typeof CaseofficerRoute
     }
+    '/ai/training': {
+      id: '/ai/training'
+      path: '/training'
+      fullPath: '/ai/training'
+      preLoaderRoute: typeof AiTrainingRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/job-match': {
+      id: '/ai/job-match'
+      path: '/job-match'
+      fullPath: '/ai/job-match'
+      preLoaderRoute: typeof AiJobMatchRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/interview': {
+      id: '/ai/interview'
+      path: '/interview'
+      fullPath: '/ai/interview'
+      preLoaderRoute: typeof AiInterviewRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/cv': {
+      id: '/ai/cv'
+      path: '/cv'
+      fullPath: '/ai/cv'
+      preLoaderRoute: typeof AiCvRouteImport
+      parentRoute: typeof AiRoute
+    }
+    '/ai/career': {
+      id: '/ai/career'
+      path: '/career'
+      fullPath: '/ai/career'
+      preLoaderRoute: typeof AiCareerRouteImport
+      parentRoute: typeof AiRoute
+    }
     '/jobseeker/ceevee/status': {
       id: '/jobseeker/ceevee/status'
       path: '/status'
@@ -510,6 +642,26 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AiRouteChildren {
+  AiCareerRoute: typeof AiCareerRoute
+  AiCvRoute: typeof AiCvRoute
+  AiInterviewRoute: typeof AiInterviewRoute
+  AiJobMatchRoute: typeof AiJobMatchRoute
+  AiTrainingRoute: typeof AiTrainingRoute
+  AiIndexRoute: typeof AiIndexRoute
+}
+
+const AiRouteChildren: AiRouteChildren = {
+  AiCareerRoute: AiCareerRoute,
+  AiCvRoute: AiCvRoute,
+  AiInterviewRoute: AiInterviewRoute,
+  AiJobMatchRoute: AiJobMatchRoute,
+  AiTrainingRoute: AiTrainingRoute,
+  AiIndexRoute: AiIndexRoute,
+}
+
+const AiRouteWithChildren = AiRoute._addFileChildren(AiRouteChildren)
 
 interface CaseofficerRouteChildren {
   CaseofficerKnowledgeBaseRoute: typeof CaseofficerKnowledgeBaseRoute
@@ -591,6 +743,7 @@ const JobseekerRouteWithChildren = JobseekerRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiRoute: AiRouteWithChildren,
   CaseofficerRoute: CaseofficerRouteWithChildren,
   EmployerRoute: EmployerRouteWithChildren,
   JobseekerRoute: JobseekerRouteWithChildren,

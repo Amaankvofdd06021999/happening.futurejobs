@@ -2,13 +2,14 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowRight, Sparkles, Briefcase, Building2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { ChatWidget } from "@/components/ai/ChatWidget";
 import { SAMPLE_ACCOUNTS, useAuth, type Role } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (s: Record<string, unknown>): { role?: Role } => ({
     role: s.role === "employer" ? "employer" : s.role === "jobseeker" ? "jobseeker" : undefined,
   }),
-  head: () => ({ meta: [{ title: "Log in — MyFutureJobs Gov" }] }),
+  head: () => ({ meta: [{ title: "Log in — MYFutureJobs" }] }),
   component: LoginPage,
 });
 
@@ -47,6 +48,7 @@ function LoginPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen grid md:grid-cols-2 bg-surface">
       {/* Left: brand panel */}
       <div className="relative hidden md:flex flex-col justify-between p-10 text-white overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft">
@@ -76,7 +78,7 @@ function LoginPage() {
             </button>
           </div>
         </div>
-        <div className="relative text-xs text-white/60">© MyFutureJobs Gov</div>
+        <div className="relative text-xs text-white/60">© MYFutureJobs</div>
       </div>
 
       {/* Right: form */}
@@ -146,6 +148,8 @@ function LoginPage() {
         </div>
       </div>
     </div>
+    <ChatWidget />
+    </>
   );
 }
 

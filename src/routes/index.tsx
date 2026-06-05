@@ -1,16 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Briefcase, Building2, FileText, Users, Search } from "lucide-react";
+import {
+  ArrowRight, Briefcase, Building2, FileText, Users, Search, MapPin,
+  CalendarDays, Sparkles, GraduationCap, Lock,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Logo } from "@/components/Logo";
 import { Reveal, RevealLift, easeOut } from "@/components/motion";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ChatWidget } from "@/components/ai/ChatWidget";
+import { EVENTS, JOBS, type EventKind } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MyFutureJobs Gov — Malaysia's modern path to work" },
+      { title: "MYFutureJobs — Malaysia's modern path to work" },
       { name: "description", content: "Find your next role or your next hire on Malaysia's national employment portal — with practical AI built in." },
-      { property: "og:title", content: "MyFutureJobs Gov — Malaysia's modern path to work" },
+      { property: "og:title", content: "MYFutureJobs — Malaysia's modern path to work" },
       { property: "og:description", content: "Two clear paths — jobseekers and employers — with AI that does the work for you." },
     ],
   }),
@@ -32,11 +37,14 @@ function Index() {
       <Nav />
       <Hero />
       <TrustBand />
+      <Programs />
       <TwoPaths />
+      <Recommendations />
       <AIBand />
       <HowItWorks />
-      <Stats />
+      <CTABand />
       <Footer />
+      <ChatWidget />
     </div>
   );
 }
@@ -49,7 +57,8 @@ function Nav() {
         <nav className="hidden md:flex items-center gap-8 text-sm text-ink/80">
           <a href="#paths" className="hover:text-ink">Find Jobs</a>
           <a href="#paths" className="hover:text-ink">For Employers</a>
-          <a href="#ai" className="hover:text-ink">Career Resources</a>
+          <a href="#programs" className="hover:text-ink">Programs</a>
+          <Link to="/ai" className="hover:text-ink">AI Services</Link>
           <button className="text-ink/70">EN ▾</button>
         </nav>
         <div className="flex items-center gap-2">
@@ -65,6 +74,8 @@ function Nav() {
     </header>
   );
 }
+
+const POPULAR = ["Business Analyst", "Software Engineer", "Customer Service", "Accountant", "Nurse", "Remote"];
 
 function Hero() {
   const reduce = useReducedMotion();
@@ -83,7 +94,7 @@ function Hero() {
               anchored bottom-right so the squarer asset's padding is cropped, not shrunk. */}
           <motion.img
             src="/hero-girl.png"
-            alt="A jobseeker reviewing live job matches and placement stats on MyFutureJobs"
+            alt="A jobseeker reviewing live job matches on MYFutureJobs"
             className="hidden lg:block absolute bottom-0 right-0 z-0 h-[92%] xl:h-[112%] w-auto object-bottom pointer-events-none select-none"
             initial={reduce ? false : { opacity: 0, x: 48 }}
             animate={reduce ? false : { opacity: 1, x: 0 }}
@@ -107,7 +118,36 @@ function Hero() {
             <motion.p variants={reduce ? undefined : heroItem} className="mt-5 text-white/80 text-lg max-w-lg">
               One national portal — two clear paths. Find work or hire talent with practical, AI-assisted tools that save real time.
             </motion.p>
-            <motion.div variants={reduce ? undefined : heroItem} className="mt-12 md:mt-14 flex flex-wrap gap-3">
+
+            {/* Search bar — the primary action, Workable-style */}
+            <motion.form
+              variants={reduce ? undefined : heroItem}
+              onSubmit={(e) => e.preventDefault()}
+              className="mt-8 max-w-xl"
+            >
+              <div className="flex flex-col sm:flex-row items-stretch gap-2 rounded-2xl bg-white p-2 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.5)]">
+                <div className="flex flex-1 items-center gap-2 px-3">
+                  <Search className="h-4 w-4 text-muted-ink shrink-0" />
+                  <input className="w-full bg-transparent py-2.5 text-sm text-ink outline-none placeholder:text-muted-ink" placeholder="Job title or keyword" />
+                </div>
+                <div className="hidden sm:block w-px bg-border" />
+                <div className="flex flex-1 items-center gap-2 px-3">
+                  <MapPin className="h-4 w-4 text-muted-ink shrink-0" />
+                  <input className="w-full bg-transparent py-2.5 text-sm text-ink outline-none placeholder:text-muted-ink" placeholder="Location" />
+                </div>
+                <Link to="/register" className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm text-brand-foreground">
+                  Search jobs <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/75">
+                <span className="text-white/55">Popular:</span>
+                {POPULAR.map((p) => (
+                  <Link key={p} to="/register" className="rounded-full bg-white/12 px-2.5 py-1 hover:bg-white/20">{p}</Link>
+                ))}
+              </div>
+            </motion.form>
+
+            <motion.div variants={reduce ? undefined : heroItem} className="mt-8 flex flex-wrap gap-3">
               <motion.span whileHover={reduce ? undefined : { scale: 1.04 }} whileTap={reduce ? undefined : { scale: 0.97 }} className="inline-flex">
                 <Link to="/register" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-accent-lime text-accent-lime-foreground">
                   Find a job <ArrowRight className="h-4 w-4" />
@@ -118,29 +158,6 @@ function Hero() {
                   Hire talent <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.span>
-            </motion.div>
-            <motion.div variants={reduce ? undefined : heroItem} className="mt-6 text-sm text-white/70">
-              Trusted by 4,900+ employers · Rated 4.9/5
-            </motion.div>
-            <motion.div variants={reduce ? undefined : heroItem} className="mt-5 flex items-center gap-3">
-              <div className="flex -space-x-3">
-                {[
-                  { i: "AR", c: "bg-accent-lime text-accent-lime-foreground" },
-                  { i: "NA", c: "bg-white text-brand-static" },
-                  { i: "MT", c: "bg-brand-static-soft text-white" },
-                  { i: "PD", c: "bg-accent-lime/80 text-accent-lime-foreground" },
-                ].map((a) => (
-                  <span
-                    key={a.i}
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-xs ring-2 ring-brand-static ${a.c}`}
-                  >
-                    {a.i}
-                  </span>
-                ))}
-              </div>
-              <span className="text-sm text-white/70">
-                Joined by <span className="text-white">520k+</span> jobseekers
-              </span>
             </motion.div>
           </motion.div>
         </div>
@@ -173,6 +190,56 @@ function TrustBand() {
             </div>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+const KIND_STYLE: Record<EventKind, string> = {
+  "Career Carnival": "bg-accent-lime/40 text-ink",
+  "Hiring Event": "bg-brand/10 text-brand",
+  "Career Fair": "bg-brand-orange/15 text-brand-orange",
+  "Training": "bg-panel/10 text-ink",
+};
+
+function Programs() {
+  return (
+    <section id="programs" className="px-6 py-20">
+      <div className="mx-auto max-w-7xl">
+        <Reveal className="flex items-end justify-between flex-wrap gap-4 mb-10">
+          <div className="max-w-2xl">
+            <div className="text-xs uppercase tracking-wider text-muted-ink">• Programs & events</div>
+            <h2 className="mt-3 text-4xl md:text-5xl tracking-tight text-ink">
+              Career carnivals, hiring days & <span className="editorial text-brand">free training</span>.
+            </h2>
+            <p className="mt-3 text-muted-ink text-lg">
+              Meet employers face-to-face, interview on the spot, and upskill — all across Malaysia.
+            </p>
+          </div>
+          <Link to="/register" className="text-sm inline-flex items-center gap-2 text-brand shrink-0">
+            View all programs <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {EVENTS.map((e, i) => (
+            <RevealLift key={e.id} delay={i * 0.08} className="flex flex-col rounded-2xl bg-surface border border-border p-6">
+              <div className="flex items-center justify-between">
+                <span className={`text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full ${KIND_STYLE[e.kind]}`}>{e.kind}</span>
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-surface-alt text-muted-ink">{e.mode}</span>
+              </div>
+              <h3 className="mt-4 text-lg tracking-tight text-ink leading-snug">{e.title}</h3>
+              <div className="mt-3 space-y-1.5 text-sm text-muted-ink">
+                <div className="flex items-center gap-2"><CalendarDays className="h-3.5 w-3.5" /> {e.date}</div>
+                <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" /> {e.location}</div>
+              </div>
+              <p className="mt-3 text-sm text-muted-ink flex-1">{e.blurb}</p>
+              <Link to="/register" className="mt-5 inline-flex items-center gap-2 text-sm text-brand">
+                {e.cta} <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </RevealLift>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -253,11 +320,57 @@ function PathCard({ role, title, bullets, cta, iconBg, icon, dark, delay = 0, im
   );
 }
 
+function Recommendations() {
+  const picks = JOBS.slice(0, 4);
+  return (
+    <section className="px-6 py-20">
+      <div className="mx-auto max-w-7xl rounded-[32px] bg-surface-alt p-8 md:p-12 border border-border">
+        <Reveal className="flex items-end justify-between flex-wrap gap-4 mb-8">
+          <div className="max-w-2xl">
+            <div className="text-xs uppercase tracking-wider text-muted-ink">• Picked for you</div>
+            <h2 className="mt-3 text-3xl md:text-4xl tracking-tight text-ink">
+              Roles trending across Malaysia right now
+            </h2>
+            <p className="mt-2 text-muted-ink">
+              Sign in to turn these into <span className="text-brand">personalised matches</span> ranked by your skills.
+            </p>
+          </div>
+          <Link to="/register" className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm text-brand-foreground shrink-0">
+            <Lock className="h-3.5 w-3.5" /> Sign in to personalise
+          </Link>
+        </Reveal>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          {picks.map((j, i) => (
+            <RevealLift key={j.id} delay={i * 0.06} className="rounded-2xl bg-surface border border-border p-5">
+              <div className="flex items-start gap-4">
+                <div className="h-11 w-11 rounded-xl bg-surface-alt flex items-center justify-center text-sm text-muted-ink shrink-0">
+                  {j.company.split(" ").map((w) => w[0]).slice(0, 2).join("")}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[15px] text-ink">{j.title}</div>
+                  <div className="text-sm text-muted-ink">{j.company} · {j.location}</div>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {j.tags.slice(0, 3).map((t) => (
+                      <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-surface-alt text-muted-ink">{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <span className="text-sm text-brand whitespace-nowrap">{j.salary.split("–")[0].trim()}+</span>
+              </div>
+            </RevealLift>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AIBand() {
   const tiles = [
-    { icon: <Search className="h-5 w-5" />, title: "Jobs that fit your profile", body: "Match scores grounded in your skills, experience and preferences — not guesswork." },
-    { icon: <FileText className="h-5 w-5" />, title: "CV analysis & improvement", body: "Concrete suggestions to strengthen your CV for the roles you actually want." },
-    { icon: <Users className="h-5 w-5" />, title: "Smart candidate matching", body: "Auto-ranked applicants with strengths, gaps and fit summary — review in minutes." },
+    { icon: <Search className="h-5 w-5" />, title: "Jobs that fit your profile", body: "Match scores grounded in your skills, experience and preferences — not guesswork.", to: "/ai/job-match" },
+    { icon: <FileText className="h-5 w-5" />, title: "CV analysis & improvement", body: "Concrete suggestions to strengthen your CV for the roles you actually want.", to: "/ai/cv" },
+    { icon: <GraduationCap className="h-5 w-5" />, title: "Certification & training advisor", body: "AI-recommended courses and credentials to close the gap to your target role.", to: "/ai/training" },
   ];
   return (
     <section id="ai" className="px-6 py-20">
@@ -273,15 +386,25 @@ function AIBand() {
         </Reveal>
         <div className="mt-12 grid md:grid-cols-3 gap-5">
           {tiles.map((t, i) => (
-            <RevealLift key={t.title} delay={i * 0.1} className="rounded-2xl bg-white/5 border border-white/10 p-6">
-              <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-accent-lime text-accent-lime-foreground">
-                {t.icon}
-              </div>
-              <h3 className="mt-5 text-xl tracking-tight">{t.title}</h3>
-              <p className="mt-2 text-white/70 text-[15px] leading-relaxed">{t.body}</p>
+            <RevealLift key={t.title} delay={i * 0.1}>
+              <Link to={t.to} className="group block h-full rounded-2xl bg-white/5 border border-white/10 p-6 transition-colors hover:border-accent-lime/50">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-accent-lime text-accent-lime-foreground">
+                  {t.icon}
+                </div>
+                <h3 className="mt-5 text-xl tracking-tight">{t.title}</h3>
+                <p className="mt-2 text-white/70 text-[15px] leading-relaxed">{t.body}</p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-accent-lime">
+                  Explore <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
             </RevealLift>
           ))}
         </div>
+        <Reveal delay={0.2} className="mt-8">
+          <Link to="/ai" className="inline-flex items-center gap-2 rounded-full bg-accent-lime px-5 py-3 text-sm text-accent-lime-foreground">
+            See all AI services <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );
@@ -317,22 +440,34 @@ function HowItWorks() {
   );
 }
 
-function Stats() {
-  const stats = [
-    { n: "520k+", t: "Active jobseekers", style: "bg-surface-alt" },
-    { n: "100%", t: "Verified employers", style: "bg-accent-lime text-accent-lime-foreground" },
-    { n: "120+", t: "Government partners", style: "bg-panel text-white" },
-    { n: "38k", t: "Open vacancies", style: "bg-surface-alt" },
-  ];
+function CTABand() {
   return (
     <section className="px-6 pb-24">
-      <div className="mx-auto max-w-7xl grid md:grid-cols-4 gap-4">
-        {stats.map((s, i) => (
-          <RevealLift key={s.t} delay={i * 0.08} className={`rounded-2xl p-8 ${s.style}`}>
-            <div className="text-5xl tracking-tight">{s.n}</div>
-            <div className="mt-6 text-sm opacity-80">{s.t}</div>
-          </RevealLift>
-        ))}
+      <div className="mx-auto max-w-7xl">
+        <RevealLift className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand via-brand to-brand-soft p-10 md:p-16 text-white">
+          <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
+            style={{ background: "radial-gradient(50% 60% at 85% 15%, oklch(0.95 0.18 130 / 0.3) 0%, transparent 60%)" }}
+          />
+          <div className="relative max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-wider bg-white/15 px-3 py-1 rounded-full">
+              <Sparkles className="h-3.5 w-3.5 text-accent-lime" /> Free · takes a minute
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl tracking-tight">
+              Your next role starts with <span className="editorial text-accent-lime">one profile</span>.
+            </h2>
+            <p className="mt-4 text-white/80 text-lg">
+              Join Malaysia's national employment portal — get matched, upskill, and meet employers at events near you.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/register" className="inline-flex items-center gap-2 rounded-full bg-accent-lime px-5 py-3 text-sm text-accent-lime-foreground">
+                Create your free profile <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link to="/ai" className="inline-flex items-center gap-2 rounded-full bg-white/12 px-5 py-3 text-sm text-white hover:bg-white/20">
+                Explore AI services
+              </Link>
+            </div>
+          </div>
+        </RevealLift>
       </div>
     </section>
   );
@@ -348,8 +483,8 @@ function Footer() {
         </div>
         {[
           { h: "Jobseekers", l: ["Browse jobs", "Career resources", "AI Career Assistant"] },
-          { h: "Employers", l: ["Post a vacancy", "Hiring guides", "Pricing"] },
-          { h: "About", l: ["Accessibility", "Privacy", "Contact"] },
+          { h: "Programs", l: ["Career Carnivals", "Hiring events", "Free training"] },
+          { h: "AI Services", l: ["Job matching", "CV analysis", "Interview prep"] },
         ].map((c) => (
           <div key={c.h}>
             <div className="text-ink mb-3">{c.h}</div>
@@ -360,7 +495,7 @@ function Footer() {
         ))}
       </div>
       <div className="mx-auto max-w-7xl mt-10 pt-6 border-t border-border text-xs text-muted-ink flex justify-between flex-wrap gap-2">
-        <span>© {new Date().getFullYear()} MyFutureJobs Gov · WCAG AA</span>
+        <span>© {new Date().getFullYear()} MYFutureJobs · WCAG AA</span>
         <span>EN · BM · 中文 · தமிழ்</span>
       </div>
     </footer>

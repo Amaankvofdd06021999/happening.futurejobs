@@ -8,7 +8,7 @@ export function Logo({ light = false }: { light?: boolean }) {
         <span className="text-[15px] leading-none">M</span>
       </span>
       <span className={`text-[15px] tracking-tight ${light ? "text-white" : "text-ink"}`}>
-        MyFutureJobs<span className="text-brand-orange">.gov</span>
+        <span className="text-brand-orange">MY</span>FutureJobs
       </span>
     </Link>
   );

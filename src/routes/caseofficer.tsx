@@ -3,7 +3,7 @@ import { LayoutDashboard, FileSearch, Database } from "lucide-react";
 import { DashLayout, type NavItem } from "@/components/dashboard/DashLayout";
 
 export const Route = createFileRoute("/caseofficer")({
-  head: () => ({ meta: [{ title: "Case Officer — MyFutureJobs Gov" }] }),
+  head: () => ({ meta: [{ title: "Case Officer — MYFutureJobs" }] }),
   component: CaseOfficerLayout,
 });
 

@@ -3,7 +3,7 @@ import { LayoutDashboard, Search, FileText, User, Sparkles, TrendingUp, BadgeChe
 import { DashLayout, type NavItem } from "@/components/dashboard/DashLayout";
 
 export const Route = createFileRoute("/jobseeker")({
-  head: () => ({ meta: [{ title: "Jobseeker — MyFutureJobs Gov" }] }),
+  head: () => ({ meta: [{ title: "Jobseeker — MYFutureJobs" }] }),
   component: JobseekerLayout,
 });
 

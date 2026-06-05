@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp, Zap, Trophy, Flame, Star, Rocket, Shield, Target, Gift } from "lucide-react";
+import type { ComponentType } from "react";
 import { PageHeader, StatCard } from "@/components/dashboard/DashLayout";
-import { APPLICATIONS, JOBS } from "@/lib/mock-data";
+import { APPLICATIONS, JOBS, BADGES, GAMIFICATION, type AchievementBadge } from "@/lib/mock-data";
 import { useAuth } from "@/lib/auth";
+
+const BADGE_ICON: Record<AchievementBadge["icon"], ComponentType<{ className?: string }>> = {
+  trophy: Trophy, flame: Flame, star: Star, rocket: Rocket, shield: Shield, target: Target,
+};
 
 export const Route = createFileRoute("/jobseeker/")({
   component: Overview,
@@ -70,6 +75,45 @@ function Overview() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Gamification + rewards strip */}
+      <div className="grid md:grid-cols-3 gap-5 mt-6">
+        <div className="md:col-span-2 rounded-2xl bg-surface border border-border p-6">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent-lime/40 text-ink">
+                <Zap className="h-4 w-4" />
+              </span>
+              <div>
+                <div className="text-sm text-ink">Level {GAMIFICATION.level} · {GAMIFICATION.levelLabel}</div>
+                <div className="text-xs text-muted-ink">{GAMIFICATION.xp} / {GAMIFICATION.xpToNext} XP · {GAMIFICATION.streakDays}-day streak</div>
+              </div>
+            </div>
+            <Link to="/jobseeker/profile" className="text-sm text-brand inline-flex items-center gap-1">
+              View achievements <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {BADGES.filter((b) => b.earned).map((b) => {
+              const Icon = BADGE_ICON[b.icon];
+              return (
+                <span key={b.id} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-alt text-sm text-ink" title={b.detail}>
+                  <Icon className="h-3.5 w-3.5 text-brand" /> {b.label}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+
+        <Link to="/jobseeker/profile" className="rounded-2xl bg-gradient-to-br from-accent-lime/30 to-surface border border-border p-6 block">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-ink">
+            <Gift className="h-3.5 w-3.5" /> Reward unlocked
+          </div>
+          <h3 className="mt-3 text-lg tracking-tight text-ink">RM15 ride voucher</h3>
+          <p className="mt-1 text-sm text-muted-ink">Attend your Maybank interview on 5 Jun to claim your travel perk.</p>
+          <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-brand">Claim now <ArrowRight className="h-3.5 w-3.5" /></span>
+        </Link>
       </div>
     </div>
   );

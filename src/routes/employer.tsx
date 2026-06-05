@@ -3,7 +3,7 @@ import { LayoutDashboard, Briefcase, Users, Sparkles, ScanText, Target, MessageS
 import { DashLayout, type NavItem } from "@/components/dashboard/DashLayout";
 
 export const Route = createFileRoute("/employer")({
-  head: () => ({ meta: [{ title: "Employer — MyFutureJobs Gov" }] }),
+  head: () => ({ meta: [{ title: "Employer — MYFutureJobs" }] }),
   component: EmployerLayout,
 });
 

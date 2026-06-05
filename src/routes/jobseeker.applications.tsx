@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Ticket } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { APPLICATIONS, JOBS } from "@/lib/mock-data";
 
@@ -32,6 +33,12 @@ function Applications() {
                         <span className="text-muted-ink">Applied {a.appliedOn}</span>
                         <span className="text-brand">{a.next}</span>
                       </div>
+                      {a.incentive && (
+                        <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-accent-lime/30 px-2.5 py-1.5 text-[11px] text-ink">
+                          <Ticket className="h-3.5 w-3.5 shrink-0" />
+                          <span>{a.incentive} unlocked — attend to claim</span>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
