@@ -19,7 +19,6 @@ import {
   DemandChart,
   SkillsRadar,
   WorkflowStepper,
-  AIPanelMobileTrigger,
 } from "@/components/ai";
 import {
   RAG_QUERY,
@@ -88,6 +87,7 @@ function StepNav({
 
 function ReportHub() {
   const [current, setCurrent] = useState(0);
+  const [query, setQuery] = useState(RAG_QUERY);
 
   // Step 2 — scope selections
   const [scope, setScope] = useState<Record<string, string>>(() =>
@@ -151,7 +151,8 @@ function ReportHub() {
                   aria-hidden
                 />
                 <textarea
-                  defaultValue={RAG_QUERY}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   rows={3}
                   aria-label="Labour-market query"
                   className="w-full resize-none bg-transparent text-base leading-relaxed text-ink outline-none placeholder:text-muted-ink"
@@ -167,7 +168,9 @@ function ReportHub() {
                     <button
                       key={q}
                       type="button"
-                      className="inline-flex min-h-[44px] items-center rounded-full bg-surface-alt px-4 py-2 text-sm text-ink transition-colors hover:bg-border"
+                      onClick={() => setQuery(q)}
+                      aria-pressed={query === q}
+                      className={`inline-flex min-h-[44px] items-center rounded-full px-4 py-2 text-sm transition-colors ${query === q ? "bg-brand text-white" : "bg-surface-alt text-ink hover:bg-border"}`}
                     >
                       {q}
                     </button>
@@ -405,23 +408,6 @@ function ReportHub() {
                 />
               </div>
             </div>
-
-            <AIPanelMobileTrigger
-              label="Ask the report"
-              eyebrow="Report explainer"
-              title="Ask anything about this report"
-              messages={[
-                {
-                  role: "ai",
-                  text: "Demand for data analysts is set to grow 18% over 12 months, outpacing local supply. The biggest constraint is the Power BI and cloud-data skills gap. Ask me to break down any figure.",
-                },
-              ]}
-              suggestions={[
-                "Why is supply undersupplied?",
-                "Which skill gap is most urgent?",
-                "What would close the gap fastest?",
-              ]}
-            />
           </div>
         )}
 

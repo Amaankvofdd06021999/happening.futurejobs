@@ -162,7 +162,7 @@ function KnowledgeBase() {
                       <span
                         aria-hidden
                         className={`h-2 w-2 rounded-full ${
-                          s.status === "Indexed" ? "bg-emerald-500" : "bg-amber-500"
+                          s.status === "Indexed" ? "bg-brand" : "bg-amber-500"
                         }`}
                       />
                       <span className="text-muted-ink">{s.status}</span>

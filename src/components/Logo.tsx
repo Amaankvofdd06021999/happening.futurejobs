@@ -1,15 +1,38 @@
 import { Link } from "@tanstack/react-router";
 
+/**
+ * Brand wordmark.
+ *   • public/logo.png        — colour version (orange "MYFuture" + navy "Jobs"), for light surfaces.
+ *   • public/logo-white.png  — dark-mode version (navy half turns white), for dark surfaces.
+ *
+ * `light` forces the white version (for the brand-gradient auth panels, which are
+ * dark in either theme). Otherwise the logo is theme-aware: colour in light mode,
+ * white in dark mode — the two images cross-fade via Tailwind's `dark:` variant.
+ */
 export function Logo({ light = false }: { light?: boolean }) {
+  if (light) {
+    return (
+      <Link to="/" className="inline-flex items-center" aria-label="MYFutureJobs — home">
+        <img src="/logo-white.png" alt="MYFutureJobs" className="h-8 w-auto select-none" draggable={false} />
+      </Link>
+    );
+  }
+
   return (
-    <Link to="/" className="flex items-center gap-2 group">
-      <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-xl bg-brand text-brand-foreground">
-        <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-brand-orange" />
-        <span className="text-[15px] leading-none">M</span>
-      </span>
-      <span className={`text-[15px] tracking-tight ${light ? "text-white" : "text-ink"}`}>
-        <span className="text-brand-orange">MY</span>FutureJobs
-      </span>
+    <Link to="/" className="inline-flex items-center" aria-label="MYFutureJobs — home">
+      <img
+        src="/logo.png"
+        alt="MYFutureJobs"
+        className="h-8 w-auto select-none block dark:hidden"
+        draggable={false}
+      />
+      <img
+        src="/logo-white.png"
+        alt=""
+        aria-hidden
+        className="h-8 w-auto select-none hidden dark:block"
+        draggable={false}
+      />
     </Link>
   );
 }

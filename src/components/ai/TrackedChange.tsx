@@ -1,6 +1,6 @@
 /**
  * TrackedChange — line-by-line "Original → Improved" suggestion with rationale,
- * used by the CeeVee CV Review and the Atlas JD rewrites.
+ * used by the AI CV Review and the JD rewrites.
  * Web: side-by-side. Mobile: stacked (the addendum's required adaptation).
  */
 import { ArrowRight, Check, X, Sparkles } from "lucide-react";

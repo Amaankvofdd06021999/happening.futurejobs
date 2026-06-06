@@ -1,21 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Sparkles, Upload, BadgeCheck, ArrowRight, GraduationCap, Gift, Ticket,
-  Trophy, Flame, Star, Rocket, Shield, Target, Zap, Lock,
+  Trophy, Flame, Star, Rocket, Shield, Target, Zap, Lock, Plus, Check,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { useAuth } from "@/lib/auth";
+import { useReward } from "@/components/gamification/reward";
 import {
-  CERTIFICATIONS, BADGES, RECOMMENDED_TRAINING, CAREER_PROGRESSION,
-  LEARNING_GOALS, GAMIFICATION, type AchievementBadge,
+  CERTIFICATIONS, RECOMMENDED_TRAINING, CAREER_PROGRESSION,
+  LEARNING_GOALS, GAMIFICATION, type AchievementBadge, type Certification,
 } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/jobseeker/profile")({
   component: Profile,
 });
 
-const SKILLS = ["SQL", "Stakeholder Management", "Agile", "Figma", "Requirements", "Python", "Data Modeling", "Communication"];
+const BASE_SKILLS = ["SQL", "Stakeholder Management", "Agile", "Figma", "Requirements", "Python", "Data Modeling", "Communication"];
+/** Skills the AI recommends adding — clicking "+ Add" pulls the next high-demand one. */
+const SUGGESTED_SKILLS = ["Power BI", "BigQuery", "BPMN Process Mapping"];
 
 const BADGE_ICON: Record<AchievementBadge["icon"], ComponentType<{ className?: string }>> = {
   trophy: Trophy, flame: Flame, star: Star, rocket: Rocket, shield: Shield, target: Target,
@@ -29,7 +33,71 @@ const STEP_DOT: Record<string, string> = {
 
 function Profile() {
   const { user } = useAuth();
-  const xpPct = Math.round((GAMIFICATION.xp / GAMIFICATION.xpToNext) * 100);
+  const { level, levelLabel, xp, xpToNext, streakDays, badges, award } = useReward();
+  const xpPct = Math.min(100, Math.round((xp / xpToNext) * 100));
+
+  // Live, interactive profile state — every action grants XP and a celebration.
+  const [skills, setSkills] = useState(BASE_SKILLS);
+  const [certs, setCerts] = useState<Certification[]>(CERTIFICATIONS);
+  const [completeness, setCompleteness] = useState(86);
+  const [cvName, setCvName] = useState("Aisha_Rahman_CV.pdf");
+  const [startedCourses, setStartedCourses] = useState<string[]>([]);
+
+  const bump = (n: number) => setCompleteness((c) => Math.min(100, c + n));
+
+  const addSkill = () => {
+    const next = SUGGESTED_SKILLS.find((s) => !skills.includes(s));
+    if (!next) return;
+    setSkills((s) => [...s, next]);
+    bump(3);
+    award({
+      xp: 60,
+      title: "Skill added",
+      detail: `${next} is now on your profile — unlocking more matches.`,
+      icon: "star",
+    });
+  };
+
+  const addCertification = () => {
+    const id = `new-${certs.length}`;
+    setCerts((c) => [
+      ...c,
+      { id, name: "Microsoft Power BI Data Analyst (PL-300)", issuer: "Microsoft Learn", issued: "Jun 2026", credentialId: "PL300-PENDING", verified: false },
+    ]);
+    bump(4);
+    award({
+      xp: 150,
+      title: "Document added",
+      detail: "Power BI (PL-300) certificate uploaded — pending verification.",
+      icon: "shield",
+      unlockBadge: "b5", // Lifelong Learner
+    });
+  };
+
+  const replaceCv = () => {
+    setCvName("Aisha_Rahman_CV_v2.pdf");
+    bump(5);
+    award({
+      xp: 120,
+      title: "CV updated",
+      detail: "Fresh CV uploaded — AI re-scanned and auto-filled 16 fields.",
+      icon: "check",
+    });
+  };
+
+  const startCourse = (id: string, course: string) => {
+    if (startedCourses.includes(id)) return;
+    const count = startedCourses.length + 1;
+    setStartedCourses((s) => [...s, id]);
+    award({
+      xp: 80,
+      title: "Course started",
+      detail: course,
+      icon: "rocket",
+      // Two courses in motion completes the "Lifelong Learner" goal.
+      unlockBadge: count >= 2 ? "b5" : undefined,
+    });
+  };
 
   return (
     <div>
@@ -46,7 +114,7 @@ function Profile() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xl tracking-tight">{user?.name}</span>
                   <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-accent-lime/40 text-ink">
-                    <Zap className="h-3 w-3" /> Lvl {GAMIFICATION.level} · {GAMIFICATION.levelLabel}
+                    <Zap className="h-3 w-3" /> Lvl {level} · {levelLabel}
                   </span>
                 </div>
                 <div className="text-sm text-muted-ink">Business Analyst · 4 yrs · Kuala Lumpur</div>
@@ -58,19 +126,21 @@ function Profile() {
               <div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-ink">Profile completeness</span>
-                  <span className="text-brand">86%</span>
+                  <span className="text-brand">{completeness}%</span>
                 </div>
-                <Bar value={86} className="bg-brand" />
-                <div className="mt-2 text-xs text-muted-ink">Add a portfolio link to reach 100%.</div>
+                <Bar value={completeness} className="bg-brand" />
+                <div className="mt-2 text-xs text-muted-ink">
+                  {completeness >= 100 ? "Complete — every match now sees your full story." : "Add a portfolio link to reach 100%."}
+                </div>
               </div>
               <div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-ink">XP to Level {GAMIFICATION.level + 1}</span>
-                  <span className="text-muted-ink">{GAMIFICATION.xp} / {GAMIFICATION.xpToNext}</span>
+                  <span className="text-ink">XP to Level {level + 1}</span>
+                  <span className="text-muted-ink">{xp} / {xpToNext}</span>
                 </div>
                 <Bar value={xpPct} className="bg-accent-lime" />
                 <div className="mt-2 flex items-center gap-1.5 text-xs text-muted-ink">
-                  <Flame className="h-3.5 w-3.5 text-brand-orange" /> {GAMIFICATION.streakDays}-day activity streak
+                  <Flame className="h-3.5 w-3.5 text-brand-orange" /> {streakDays}-day activity streak
                 </div>
               </div>
             </div>
@@ -83,8 +153,15 @@ function Profile() {
           <div className="rounded-2xl bg-surface border border-border p-6">
             <h3 className="text-lg tracking-tight">Skills</h3>
             <div className="mt-4 flex flex-wrap gap-2">
-              {SKILLS.map((s) => <span key={s} className="px-3 py-1.5 rounded-full bg-surface-alt text-sm">{s}</span>)}
-              <button className="px-3 py-1.5 rounded-full border border-dashed border-border text-sm text-muted-ink">+ Add</button>
+              {skills.map((s) => <span key={s} className="px-3 py-1.5 rounded-full bg-surface-alt text-sm">{s}</span>)}
+              {skills.length < BASE_SKILLS.length + SUGGESTED_SKILLS.length && (
+                <button
+                  onClick={addSkill}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-dashed border-border text-sm text-muted-ink hover:border-accent-lime hover:text-ink transition-colors"
+                >
+                  <Plus className="h-3.5 w-3.5" /> Add skill
+                </button>
+              )}
             </div>
           </div>
 
@@ -92,10 +169,12 @@ function Profile() {
           <div className="rounded-2xl bg-surface border border-border p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg tracking-tight">Certifications & credentials</h3>
-              <button className="text-sm text-brand inline-flex items-center gap-1">+ Add</button>
+              <button onClick={addCertification} className="text-sm text-brand inline-flex items-center gap-1">
+                <Plus className="h-3.5 w-3.5" /> Add
+              </button>
             </div>
             <ul className="mt-4 space-y-3">
-              {CERTIFICATIONS.map((c) => (
+              {certs.map((c) => (
                 <li key={c.id} className="flex items-start gap-3 rounded-xl bg-surface-alt p-4">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand shrink-0">
                     <GraduationCap className="h-5 w-5" />
@@ -104,7 +183,7 @@ function Profile() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[15px] text-ink">{c.name}</span>
                       {c.verified ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-brand">
                           <BadgeCheck className="h-3.5 w-3.5" /> Verified
                         </span>
                       ) : (
@@ -123,13 +202,13 @@ function Profile() {
           <div className="rounded-2xl bg-surface border border-border p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg tracking-tight">Achievements & skill recognitions</h3>
-              <span className="text-xs text-muted-ink">{BADGES.filter((b) => b.earned).length}/{BADGES.length} earned</span>
+              <span className="text-xs text-muted-ink">{badges.filter((b) => b.earned).length}/{badges.length} earned</span>
             </div>
             <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {BADGES.map((b) => {
+              {badges.map((b) => {
                 const Icon = BADGE_ICON[b.icon];
                 return (
-                  <div key={b.id} className={`rounded-xl border p-4 ${b.earned ? "border-border bg-surface-alt" : "border-dashed border-border bg-surface opacity-60"}`}>
+                  <div key={b.id} className={`rounded-xl border p-4 transition-colors ${b.earned ? "border-border bg-surface-alt" : "border-dashed border-border bg-surface opacity-60"}`}>
                     <div className="flex items-center gap-2">
                       <span className={`inline-flex h-9 w-9 items-center justify-center rounded-lg ${b.earned ? "bg-accent-lime/40 text-ink" : "bg-surface-alt text-muted-ink"}`}>
                         {b.earned ? <Icon className="h-4.5 w-4.5" /> : <Lock className="h-4 w-4" />}
@@ -202,23 +281,30 @@ function Profile() {
             </div>
             <p className="mt-3 text-sm text-muted-ink">Courses & certs to reach <span className="text-ink">Senior Business Analyst</span>:</p>
             <ul className="mt-4 space-y-3">
-              {RECOMMENDED_TRAINING.map((t) => (
-                <li key={t.id} className="rounded-xl bg-surface-alt p-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="text-[14px] text-ink">{t.course}</span>
-                    {t.claimable && (
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 shrink-0">
-                        <BadgeCheck className="h-3 w-3" /> HRD
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-xs text-muted-ink mt-0.5">{t.provider} · {t.duration}</div>
-                  <p className="text-xs text-muted-ink mt-2">{t.why}</p>
-                  <button className="mt-3 inline-flex items-center gap-1.5 text-sm text-brand">
-                    Start course <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                </li>
-              ))}
+              {RECOMMENDED_TRAINING.map((t) => {
+                const started = startedCourses.includes(t.id);
+                return (
+                  <li key={t.id} className="rounded-xl bg-surface-alt p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-[14px] text-ink">{t.course}</span>
+                      {t.claimable && (
+                        <span className="inline-flex items-center gap-1 text-[11px] text-brand shrink-0">
+                          <BadgeCheck className="h-3 w-3" /> HRD
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-muted-ink mt-0.5">{t.provider} · {t.duration}</div>
+                    <p className="text-xs text-muted-ink mt-2">{t.why}</p>
+                    <button
+                      onClick={() => startCourse(t.id, t.course)}
+                      disabled={started}
+                      className="mt-3 inline-flex items-center gap-1.5 text-sm text-brand disabled:text-muted-ink"
+                    >
+                      {started ? <><Check className="h-3.5 w-3.5" /> Enrolled</> : <>Start course <ArrowRight className="h-3.5 w-3.5" /></>}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -234,14 +320,14 @@ function Profile() {
                     <span className="text-ink">{g.label}</span>
                     <span className="text-muted-ink">{g.progress}%</span>
                   </div>
-                  <Bar value={g.progress} className={g.progress === 100 ? "bg-emerald-500" : "bg-brand"} />
+                  <Bar value={g.progress} className={g.progress === 100 ? "bg-accent-lime" : "bg-brand"} />
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Rewards & perks — interview incentive */}
-          <div className="rounded-2xl bg-gradient-to-br from-accent-lime/30 to-surface border border-border p-6">
+          <div className="rounded-2xl bg-gradient-to-br from-accent-lime/30 to-surface dark:bg-none dark:bg-surface border border-border p-6">
             <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-ink">
               <Gift className="h-3.5 w-3.5" /> Rewards & perks
             </div>
@@ -258,16 +344,22 @@ function Profile() {
                 <div className="text-xs text-muted-ink">Unlocked for your Maybank interview · 5 Jun</div>
               </div>
             </div>
-            <button className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full bg-panel text-white text-sm py-2.5">
-              View all rewards <ArrowRight className="h-3.5 w-3.5" />
+            <button
+              onClick={() => award({ xp: 40, title: "Reward claimed", detail: "RM15 ride voucher added to your wallet.", icon: "party" })}
+              className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-full bg-panel text-white text-sm py-2.5"
+            >
+              Claim reward <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
 
           {/* CV on file */}
           <div className="rounded-2xl bg-surface border border-border p-6">
             <h3 className="text-base tracking-tight">CV on file</h3>
-            <p className="text-sm text-muted-ink mt-1">Aisha_Rahman_CV.pdf · auto-filled 14 fields</p>
-            <button className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-accent-lime text-accent-lime-foreground text-sm">
+            <p className="text-sm text-muted-ink mt-1">{cvName} · auto-filled 16 fields</p>
+            <button
+              onClick={replaceCv}
+              className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-accent-lime text-accent-lime-foreground text-sm"
+            >
               <Upload className="h-4 w-4" /> Replace CV
             </button>
           </div>
@@ -280,7 +372,7 @@ function Profile() {
 function Bar({ value, className }: { value: number; className: string }) {
   return (
     <div className="mt-2 h-2 rounded-full bg-surface-alt overflow-hidden">
-      <div className={`h-full ${className}`} style={{ width: `${value}%` }} />
+      <div className={`h-full ${className} transition-all duration-500`} style={{ width: `${value}%` }} />
     </div>
   );
 }

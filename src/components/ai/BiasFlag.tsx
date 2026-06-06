@@ -1,9 +1,10 @@
 /**
- * BiasFlag — bias detection callout for JD critique (Atlas) and evaluation
+ * BiasFlag — bias detection callout for JD critique and evaluation
  * criteria. Severity-tiered, with a suggested rewrite. Uses an amber/red ramp
  * for severity only (not a brand accent) — kept subtle and accessible.
  */
-import { AlertTriangle, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { AlertTriangle, ArrowRight, Check } from "lucide-react";
 
 export type BiasSeverity = "high" | "medium" | "low";
 
@@ -18,26 +19,39 @@ export function BiasFlag({
   type,
   severity,
   suggestion,
+  onApply,
 }: {
   phrase: string;
   type: string;
   severity: BiasSeverity;
   suggestion: string;
+  /** Fired when the user accepts the inclusive replacement (for a toast etc.). */
+  onApply?: () => void;
 }) {
   const s = SEVERITY[severity];
+  const [applied, setApplied] = useState(false);
   return (
-    <div className="rounded-xl border border-border bg-surface p-4">
+    <div className={`rounded-xl border bg-surface p-4 ${applied ? "border-accent-lime/50" : "border-border"}`}>
       <div className="flex items-center gap-2 flex-wrap">
         <span className={`h-2 w-2 rounded-full ${s.dot}`} aria-hidden />
         <span className="text-[11px] uppercase tracking-wider text-muted-ink">{type}</span>
         <span className={`text-[11px] rounded-full px-2 py-0.5 ${s.chip}`}>{s.label}</span>
       </div>
       <div className="mt-2 flex items-center gap-2 text-sm flex-wrap">
-        <span className="rounded-md bg-rose-50 text-rose-700 px-2 py-0.5 line-through decoration-rose-300">
+        <span className={`rounded-md px-2 py-0.5 ${applied ? "bg-surface-alt text-muted-ink line-through" : "bg-rose-50 text-rose-700 line-through decoration-rose-300"}`}>
           {phrase}
         </span>
         <ArrowRight className="h-3.5 w-3.5 text-muted-ink" />
         <span className="rounded-md bg-accent-lime/30 text-ink px-2 py-0.5">{suggestion}</span>
+      </div>
+      <div className="mt-3">
+        <button
+          onClick={() => { if (!applied) { setApplied(true); onApply?.(); } }}
+          disabled={applied}
+          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${applied ? "bg-surface-alt text-muted-ink" : "bg-panel text-white"}`}
+        >
+          {applied ? <><Check className="h-3.5 w-3.5" /> Applied</> : "Apply fix"}
+        </button>
       </div>
     </div>
   );

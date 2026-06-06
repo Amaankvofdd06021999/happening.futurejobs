@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
-import { Search, MapPin, Bookmark, Sparkles } from "lucide-react";
+import { Search, MapPin, Bookmark, Sparkles, Check } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { JOBS } from "@/lib/mock-data";
+import { useReward } from "@/components/gamification/reward";
 import { MatchBadge } from "./jobseeker.index";
 
 export const Route = createFileRoute("/jobseeker/jobs")({
@@ -20,7 +21,21 @@ function loadFilters(): Filters {
 }
 
 function Jobs() {
+  const { award } = useReward();
+  const [applied, setApplied] = useState<string[]>([]);
+  const [saved, setSaved] = useState<string[]>([]);
   const [filters, setFilters] = useState<Filters>({ q: "", loc: "", types: [], sort: "match" });
+
+  const apply = (id: string, title: string, company: string) => {
+    if (applied.includes(id)) return;
+    setApplied((a) => [...a, id]);
+    award({ xp: 100, title: "Application sent", detail: `${title} · ${company} — AI tailored your CV automatically.`, icon: "rocket" });
+  };
+  const toggleSave = (id: string) => {
+    const next = !saved.includes(id);
+    setSaved((s) => next ? [...s, id] : s.filter((x) => x !== id));
+    if (next) award({ xp: 10, title: "Job saved", detail: "Added to your shortlist for later.", icon: "star" });
+  };
   useEffect(() => { setFilters(loadFilters()); }, []);
   useEffect(() => { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); }, [filters]);
 
@@ -93,8 +108,20 @@ function Jobs() {
                 <div className="text-sm text-ink">{j.salary}</div>
                 <div className="text-xs text-muted-ink">{j.posted}</div>
                 <div className="mt-auto flex gap-2">
-                  <button className="p-2 rounded-full bg-surface-alt"><Bookmark className="h-4 w-4" /></button>
-                  <button className="px-4 py-2 rounded-full bg-accent-lime text-accent-lime-foreground text-sm">Apply</button>
+                  <button
+                    onClick={() => toggleSave(j.id)}
+                    aria-label={saved.includes(j.id) ? "Saved" : "Save job"}
+                    className={`p-2 rounded-full ${saved.includes(j.id) ? "bg-accent-lime text-accent-lime-foreground" : "bg-surface-alt"}`}
+                  >
+                    <Bookmark className="h-4 w-4" fill={saved.includes(j.id) ? "currentColor" : "none"} />
+                  </button>
+                  <button
+                    onClick={() => apply(j.id, j.title, j.company)}
+                    disabled={applied.includes(j.id)}
+                    className={`px-4 py-2 rounded-full text-sm inline-flex items-center gap-1.5 ${applied.includes(j.id) ? "bg-surface-alt text-muted-ink" : "bg-accent-lime text-accent-lime-foreground"}`}
+                  >
+                    {applied.includes(j.id) ? <><Check className="h-3.5 w-3.5" /> Applied</> : "Apply"}
+                  </button>
                 </div>
               </div>
             </article>

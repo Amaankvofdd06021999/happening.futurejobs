@@ -53,7 +53,7 @@ function LoginPage() {
       {/* Left: brand panel */}
       <div className="relative hidden md:flex flex-col justify-between p-10 text-white overflow-hidden bg-gradient-to-br from-brand via-brand to-brand-soft">
         <div aria-hidden className="absolute inset-0 opacity-60" style={{
-          background: "radial-gradient(60% 60% at 80% 20%, oklch(0.85 0.1 230 / 0.45) 0%, transparent 60%), radial-gradient(40% 40% at 20% 80%, oklch(0.95 0.18 130 / 0.25) 0%, transparent 60%)"
+          background: "radial-gradient(60% 60% at 80% 20%, oklch(0.85 0.1 230 / 0.45) 0%, transparent 60%), radial-gradient(40% 40% at 20% 80%, oklch(0.7 0.17 36 / 0.28) 0%, transparent 60%)"
         }} />
         <div className="relative">
           <Logo light />

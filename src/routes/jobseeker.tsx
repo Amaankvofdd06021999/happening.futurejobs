@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LayoutDashboard, Search, FileText, User, Sparkles, TrendingUp, BadgeCheck } from "lucide-react";
 import { DashLayout, type NavItem } from "@/components/dashboard/DashLayout";
+import { RewardProvider } from "@/components/gamification/reward";
 
 export const Route = createFileRoute("/jobseeker")({
   head: () => ({ meta: [{ title: "Jobseeker — MYFutureJobs" }] }),
@@ -18,5 +19,9 @@ const NAV: NavItem[] = [
 ];
 
 function JobseekerLayout() {
-  return <DashLayout role="jobseeker" nav={NAV} title="Jobseeker" />;
+  return (
+    <RewardProvider>
+      <DashLayout role="jobseeker" nav={NAV} title="Jobseeker" />
+    </RewardProvider>
+  );
 }

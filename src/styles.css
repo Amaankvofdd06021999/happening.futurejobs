@@ -19,13 +19,15 @@
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* Radius scale compressed to an 8px base — cards/panels (xl, 2xl) all land at
+   * 8px; small inner radii stay tighter, large hero sections only slightly softer. */
+  --radius-sm: calc(var(--radius) - 4px);  /* 4px */
+  --radius-md: calc(var(--radius) - 2px);  /* 6px */
+  --radius-lg: var(--radius);              /* 8px */
+  --radius-xl: var(--radius);              /* 8px */
+  --radius-2xl: var(--radius);             /* 8px */
+  --radius-3xl: calc(var(--radius) + 4px); /* 12px */
+  --radius-4xl: calc(var(--radius) + 8px); /* 16px */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -71,13 +73,14 @@
   --color-surface: var(--surface);
   --color-surface-alt: var(--surface-alt);
   --color-brand-orange: var(--brand-orange);
+  --color-cream: var(--cream);
   --color-panel: var(--panel);
   --color-panel-foreground: var(--panel-foreground);
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.18 0.025 260);
   --card: oklch(1 0 0);
@@ -86,11 +89,11 @@
   --popover-foreground: oklch(0.18 0.025 260);
   --primary: oklch(0.36 0.18 265);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.965 0.01 250);
+  --secondary: oklch(0.975 0.008 75);
   --secondary-foreground: oklch(0.22 0.04 265);
-  --muted: oklch(0.965 0.01 250);
+  --muted: oklch(0.975 0.008 75);
   --muted-foreground: oklch(0.5 0.02 258);
-  --accent: oklch(0.93 0.18 130);
+  --accent: oklch(0.685 0.17 36);
   --accent-foreground: oklch(0.22 0.05 260);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
@@ -98,7 +101,7 @@
   --input: oklch(0.92 0.01 255);
   --ring: oklch(0.55 0.16 265);
   --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-2: oklch(0.62 0.13 55);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
@@ -115,7 +118,11 @@
   --brand: oklch(0.36 0.18 265);            /* deep royal blue */
   --brand-soft: oklch(0.55 0.18 262);
   --brand-foreground: oklch(0.99 0 0);
-  --accent-lime: oklch(0.93 0.18 130);      /* spring lime */
+  /* Single accent — warm coral-orange #F46944 (replaces the former spring lime).
+   * Token name kept as `accent-lime` for compatibility across ~150 call sites;
+   * it now resolves to orange everywhere. Foreground stays dark ink (≈5:1 on the
+   * coral, better contrast than white would give). */
+  --accent-lime: oklch(0.685 0.17 36);      /* #F46944 — brand accent orange */
   --accent-lime-foreground: oklch(0.22 0.05 260);
   /* Theme-static brand blue — same in light + dark (used by the landing hero,
    * which must not change colour between modes). Intentionally NOT overridden in .dark. */
@@ -124,7 +131,10 @@
   --ink: oklch(0.18 0.025 260);
   --muted-ink: oklch(0.5 0.02 258);
   --surface: oklch(1 0 0);
-  --surface-alt: oklch(0.97 0.008 250);
+  /* Warm neutral — #FBF7F2. The second neutral that accents the orange: section
+   * bands, inset fields and subtle cards now sit on a soft cream rather than cool grey. */
+  --cream: oklch(0.978 0.006 80);
+  --surface-alt: oklch(0.978 0.006 80);
   --brand-orange: oklch(0.7 0.18 50);
 
   /* Dark surface used by AI panels, dark bands and dark pills.
@@ -135,8 +145,8 @@
 }
 
 /*
- * Dark mode — brand-consistent. The royal-blue brand (hue ~262) and the spring
- * lime accent (hue 130) are kept; neutrals invert to a calm blue-tinted dark.
+ * Dark mode — brand-consistent. The royal-blue brand (hue ~262) and the coral-
+ * orange accent (hue ~37, #F46944) are kept; neutrals invert to a calm dark.
  * Surfaces follow the same "cards sit above the page" relationship as light mode.
  */
 .dark {
@@ -152,7 +162,7 @@
   --secondary-foreground: oklch(0.96 0.01 250);
   --muted: oklch(0.26 0.03 265);
   --muted-foreground: oklch(0.68 0.02 258);
-  --accent: oklch(0.93 0.18 130);
+  --accent: oklch(0.72 0.165 38);
   --accent-foreground: oklch(0.2 0.05 260);
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
@@ -160,7 +170,7 @@
   --input: oklch(1 0 0 / 16%);
   --ring: oklch(0.63 0.186 251);
   --chart-1: oklch(0.63 0.186 251);
-  --chart-2: oklch(0.85 0.16 130);
+  --chart-2: oklch(0.78 0.16 55);
   --chart-3: oklch(0.7 0.15 230);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
@@ -177,12 +187,13 @@
   --brand: oklch(0.63 0.186 251);          /* #0089F3 — dark-mode brand blue */
   --brand-soft: oklch(0.72 0.16 248);
   --brand-foreground: oklch(0.99 0 0);
-  --accent-lime: oklch(0.93 0.18 130);
+  --accent-lime: oklch(0.72 0.165 38);     /* #F46944 family, lifted for dark */
   --accent-lime-foreground: oklch(0.2 0.05 260);
   --ink: oklch(0.96 0.01 250);
   --muted-ink: oklch(0.68 0.02 258);
   --surface: oklch(0.215 0.025 265);
   --surface-alt: oklch(0.175 0.022 265);
+  --cream: oklch(0.215 0.025 265);          /* warm-neutral slot maps to a dark elevated surface */
   --brand-orange: oklch(0.72 0.17 50);
 
   /* Elevated dark surface for AI panels / dark bands / dark pills */
@@ -232,7 +243,7 @@
     width: 100%;
     height: 2.75rem;
     padding: 0 0.875rem;
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
     background-color: var(--color-surface-alt);
     border: 1px solid var(--color-border);
     font-size: 0.95rem;

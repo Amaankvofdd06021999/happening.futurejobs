@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, CheckCircle2, Flag } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { WorkflowBanner, AIEyebrow } from "@/components/ai";
 import { ATLAS_INTERVIEW, ATLAS_JD } from "@/lib/mock-data";
@@ -38,7 +39,10 @@ function InterviewQuestions() {
         title="Interview questions"
         subtitle={`Generated for ${ATLAS_JD.title}`}
         actions={
-          <button className="inline-flex items-center gap-2 rounded-full bg-accent-lime text-accent-lime-foreground px-5 py-2.5 text-sm tracking-tight">
+          <button
+            onClick={() => toast("Interview pack exported", { description: `${questions.length} questions for ${ATLAS_JD.title} downloaded as PDF.` })}
+            className="inline-flex items-center gap-2 rounded-full bg-accent-lime text-accent-lime-foreground px-5 py-2.5 text-sm tracking-tight"
+          >
             <Download className="h-4 w-4" />
             Export to PDF
           </button>

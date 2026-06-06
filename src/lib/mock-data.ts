@@ -144,12 +144,12 @@ export const CANDIDATES: Candidate[] = [
 /* ============================================================================
  * AI WORKFLOW DATA (Tender addendum)
  *
- * Three end-to-end AI narratives. Agent names (CeeVee / Atlas) are placeholders.
+ * Three end-to-end AI narratives. The AI is referred to generically (no agent brand).
  * All payloads are illustrative demo content, not real records.
  * ========================================================================== */
 
 /* ---------------------------------------------------------------------------
- * WORKFLOW 1 — Jobseeker · CeeVee (Market Positioning + CV Optimisation)
+ * WORKFLOW 1 — Jobseeker AI (Market Positioning + CV Optimisation)
  * Reference persona: Aisha Rahman
  * ------------------------------------------------------------------------- */
 
@@ -298,7 +298,7 @@ export const CEEVEE_NEXT_STEPS: NextStep[] = [
 ];
 
 /* ---------------------------------------------------------------------------
- * WORKFLOW 2 — Employer · Atlas (JD Critique → Fit → Interview → Eval)
+ * WORKFLOW 2 — Employer AI (JD Critique → Fit → Interview → Eval)
  * ------------------------------------------------------------------------- */
 
 export const ATLAS_JD = {

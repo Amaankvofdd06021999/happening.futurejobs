@@ -109,7 +109,7 @@ export function ChatWidget() {
               <div className="flex-1">
                 <div className="text-sm">MYFutureJobs Assistant</div>
                 <div className="flex items-center gap-1.5 text-[11px] text-white/60">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Online · no login needed
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" /> Online · no login needed
                 </div>
               </div>
               <button onClick={() => setOpen(false)} aria-label="Close" className="rounded-full p-1.5 text-white/70 hover:bg-white/10">

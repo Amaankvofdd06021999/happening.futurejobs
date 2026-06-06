@@ -18,7 +18,6 @@ import {
   ScoreBar,
   WhyButton,
   AIPanel,
-  AIPanelMobileTrigger,
 } from "@/components/ai";
 import {
   CEEVEE_CANDIDATE,
@@ -33,27 +32,24 @@ export const Route = createFileRoute("/jobseeker/ceevee")({
 
 const KIND_META: Record<
   string,
-  { label: string; chip: string; icon: typeof CheckCircle2; line: string; inset: string }
+  { label: string; chip: string; icon: typeof CheckCircle2; inset: string }
 > = {
   strength: {
     label: "Strength",
     chip: "bg-accent-lime text-accent-lime-foreground",
     icon: CheckCircle2,
-    line: "border-l-accent-lime",
     inset: "bg-accent-lime/10",
   },
   concern: {
     label: "Concern",
     chip: "bg-amber-100 text-amber-800",
     icon: AlertTriangle,
-    line: "border-l-amber-400",
     inset: "bg-amber-50",
   },
   gap: {
     label: "Gap",
     chip: "bg-blue-100 text-brand",
     icon: Target,
-    line: "border-l-brand",
     inset: "bg-blue-50",
   },
 };
@@ -165,7 +161,7 @@ function CeeVeeOptimisation() {
                 return (
                   <div
                     key={i}
-                    className={`rounded-2xl border border-border border-l-4 ${meta.line} bg-surface-alt/40 p-4`}
+                    className="rounded-2xl border border-border bg-surface-alt/40 p-4"
                   >
                     <div className="flex items-start gap-3">
                       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-muted-ink" />
@@ -208,8 +204,6 @@ function CeeVeeOptimisation() {
           <AIPanel {...aiProps} />
         </aside>
       </div>
-
-      <AIPanelMobileTrigger {...aiProps} label="Ask AI" />
     </div>
   );
 }

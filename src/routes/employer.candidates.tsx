@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Check } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { CANDIDATES, VACANCIES } from "@/lib/mock-data";
 
@@ -13,6 +14,18 @@ function Candidates() {
   const list = CANDIDATES.filter((c) => vacancy === "all" || c.vacancyId === vacancy).sort((a, b) => b.match - a.match);
   const [selected, setSelected] = useState(list[0]?.id);
   const detail = CANDIDATES.find((c) => c.id === selected) ?? list[0];
+  const [shortlisted, setShortlisted] = useState<string[]>([]);
+
+  const toggleShortlist = (id: string, name: string) => {
+    const next = !shortlisted.includes(id);
+    setShortlisted((s) => (next ? [...s, id] : s.filter((x) => x !== id)));
+    toast(next ? `${name} shortlisted` : `${name} removed from shortlist`, {
+      description: next ? "Added to your shortlist for this vacancy." : undefined,
+    });
+  };
+
+  const message = (name: string) =>
+    toast(`Message drafted to ${name}`, { description: "AI pre-filled an intro based on the role and their profile." });
 
   return (
     <div>
@@ -57,8 +70,13 @@ function Candidates() {
                 </div>
               </div>
               <div className="mt-5 flex gap-2">
-                <button className="px-4 py-2 rounded-full bg-accent-lime text-accent-lime-foreground text-sm">Shortlist</button>
-                <button className="px-4 py-2 rounded-full bg-surface-alt text-sm">Message</button>
+                <button
+                  onClick={() => toggleShortlist(detail.id, detail.name)}
+                  className={`px-4 py-2 rounded-full text-sm inline-flex items-center gap-1.5 ${shortlisted.includes(detail.id) ? "bg-surface-alt text-ink" : "bg-accent-lime text-accent-lime-foreground"}`}
+                >
+                  {shortlisted.includes(detail.id) ? <><Check className="h-3.5 w-3.5" /> Shortlisted</> : "Shortlist"}
+                </button>
+                <button onClick={() => message(detail.name)} className="px-4 py-2 rounded-full bg-surface-alt text-sm">Message</button>
               </div>
             </div>
             <div className="rounded-2xl bg-panel text-white p-6">

@@ -86,7 +86,7 @@ function Hero() {
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
             style={{
               background:
-                "radial-gradient(60% 60% at 80% 20%, oklch(0.85 0.1 230 / 0.45) 0%, transparent 60%), radial-gradient(40% 40% at 20% 80%, oklch(0.95 0.18 130 / 0.25) 0%, transparent 60%)",
+                "radial-gradient(60% 60% at 80% 20%, oklch(0.85 0.1 230 / 0.45) 0%, transparent 60%), radial-gradient(40% 40% at 20% 80%, oklch(0.7 0.17 36 / 0.28) 0%, transparent 60%)",
             }}
           />
 
@@ -446,7 +446,7 @@ function CTABand() {
       <div className="mx-auto max-w-7xl">
         <RevealLift className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand via-brand to-brand-soft p-10 md:p-16 text-white">
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60"
-            style={{ background: "radial-gradient(50% 60% at 85% 15%, oklch(0.95 0.18 130 / 0.3) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(50% 60% at 85% 15%, oklch(0.7 0.17 36 / 0.32) 0%, transparent 60%)" }}
           />
           <div className="relative max-w-2xl">
             <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-wider bg-white/15 px-3 py-1 rounded-full">

@@ -29,7 +29,7 @@ function TrainingAdvisor() {
             <div className="flex items-center justify-between">
               <span className="text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-alt text-muted-ink">{t.duration}</span>
               {t.claimable && (
-                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600">
+                <span className="inline-flex items-center gap-1 text-[11px] text-brand">
                   <BadgeCheck className="h-3.5 w-3.5" /> HRD Corp
                 </span>
               )}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Building2, TrendingDown, ShieldAlert } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import {
   WorkflowBanner,
@@ -16,6 +17,7 @@ import {
   ATLAS_JD_REWRITES,
   ATLAS_BIAS,
   type SkillTag,
+  type JdRewrite,
 } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/employer/jd-analyzer")({ component: JdAnalyzer });
@@ -244,17 +246,29 @@ function MarketInputsTab() {
           </div>
         </div>
         {ATLAS_JD_REWRITES.map((rw) => (
-          <TrackedChange
-            key={rw.label}
-            section={rw.label}
-            original={rw.original}
-            improved={rw.improved}
-            rationale={rw.rationale}
-            actions={false}
-          />
+          <JdRewriteCard key={rw.label} rw={rw} />
         ))}
       </div>
     </div>
+  );
+}
+
+/** A JD rewrite with working Accept / Keep-original actions. */
+function JdRewriteCard({ rw }: { rw: JdRewrite }) {
+  const [accepted, setAccepted] = useState<boolean | undefined>(undefined);
+  return (
+    <TrackedChange
+      section={rw.label}
+      original={rw.original}
+      improved={rw.improved}
+      rationale={rw.rationale}
+      accepted={accepted}
+      onAccept={() => {
+        if (accepted !== true) toast("Rewrite applied to JD", { description: rw.label });
+        setAccepted(true);
+      }}
+      onReject={() => setAccepted(false)}
+    />
   );
 }
 
@@ -291,6 +305,7 @@ function BiasTab() {
             type={b.type}
             severity={b.severity}
             suggestion={b.suggestion}
+            onApply={() => toast("Inclusive rewrite applied", { description: `"${b.phrase}" → "${b.suggestion}"` })}
           />
         ))}
       </div>

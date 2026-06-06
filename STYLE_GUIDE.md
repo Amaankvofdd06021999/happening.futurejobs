@@ -6,7 +6,8 @@ landing page in [`src/routes/index.tsx`](src/routes/index.tsx). Follow this to k
 every new screen visually consistent with the landing page.
 
 > **North star:** Modern, calm, confident. Light-mode first, generous whitespace,
-> soft rounded cards, one blue + one lime accent, and a strict no-bold type system.
+> lightly-rounded cards (8px), one blue + one coral-orange accent on a white +
+> warm-cream neutral base, and a strict no-bold type system.
 
 ---
 
@@ -34,8 +35,8 @@ and exposed as Tailwind utilities (`bg-brand`, `text-ink`, `bg-accent-lime`, …
 | `brand` | `0.36 0.18 265` — deep royal blue | Primary brand, hero gradients, headings, active nav, primary CTA on light surfaces |
 | `brand-soft` | `0.55 0.18 262` | Gradient end-stop only (hero / auth panels) |
 | `brand-foreground` | near-white | Text/icons on `brand` |
-| `accent-lime` | `0.93 0.18 130` — spring lime | The single accent: primary CTAs, highlights, success, match scores |
-| `accent-lime-foreground` | dark ink | Text on lime (keeps AA contrast) |
+| `accent-lime` | `0.685 0.17 36` — **coral-orange #F46944** | The single accent: primary CTAs, highlights, success, match scores. *(Token name kept for compatibility; it now resolves to orange everywhere — there is no green.)* |
+| `accent-lime-foreground` | dark ink | Text on the accent (dark ink gives ≈5:1 on the coral — better than white) |
 | `brand-orange` | `0.7 0.18 50` | **Logo lockup only** — legacy MyFutureJobs identity. Do not use elsewhere. |
 
 ### Neutrals & surfaces
@@ -45,11 +46,12 @@ and exposed as Tailwind utilities (`bg-brand`, `text-ink`, `bg-accent-lime`, …
 | `ink` | Primary body & heading text |
 | `muted-ink` | Secondary text, captions, labels |
 | `surface` | Page / card background (white) |
-| `surface-alt` | Section bands, inset fields, subtle cards |
+| `surface-alt` / `cream` | **Warm cream #FBF7F2** — the second neutral that accents the orange: section bands, inset fields, subtle cards, pill backgrounds |
 | `border` | Hairline borders (1px), dividers |
 
 ### Rules
-- **One accent.** Lime is the only accent colour. Resist adding more.
+- **One accent.** Coral-orange `#F46944` (the `accent-lime` token) is the only accent colour. Resist adding more.
+- **Two neutrals.** White (`surface`) + warm cream (`surface-alt` / `cream`, `#FBF7F2`). Conventional live-status dots may stay a muted green; nothing else is green.
 - **Dark blocks for rhythm.** Use `bg-ink text-white` (or the `brand` gradient) for
   one feature band / AI panel per view — never two adjacent.
 - **AI panels are dark.** Every AI/assistant surface uses `bg-ink text-white` with a
@@ -115,7 +117,7 @@ of a heading, paired with `text-accent-lime` (on dark) or `text-brand` (on light
 
 | Property | Value |
 |---|---|
-| Base radius | `--radius: 1rem` (16px). Scale: `rounded-xl` cards, `rounded-2xl` panels, `rounded-3xl`/`rounded-[32px]` hero & big sections |
+| Base radius | `--radius: 0.5rem` (8px). Scale compressed so `rounded-lg`/`rounded-xl`/`rounded-2xl` all = **8px** (cards & panels); `rounded-md` 6px, `rounded-sm` 4px; `rounded-3xl` 12px; `rounded-[32px]` reserved for the hero only |
 | Pills | `rounded-full` for all buttons, tags, badges, role toggles |
 | Elevation | Soft, low: `shadow-[0_10px_40px_-15px_rgba(0,0,0,0.25)]` for floating cards; `hover:shadow-sm` for list cards. Avoid heavy shadows. |
 | Borders | 1px `border-border`, no heavy outlines |

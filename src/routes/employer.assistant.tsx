@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, FileText, Users, MessageSquare, DollarSign } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 
@@ -7,10 +7,10 @@ export const Route = createFileRoute("/employer/assistant")({
 });
 
 const TOOLS = [
-  { icon: <Users className="h-5 w-5" />, title: "Candidate matching", body: "Rank applicants against any vacancy with explainable fit scores." },
-  { icon: <FileText className="h-5 w-5" />, title: "Resume ↔ JD fit", body: "See strengths, gaps and recommended interview probes per candidate." },
-  { icon: <MessageSquare className="h-5 w-5" />, title: "Interview questions", body: "Tailored question sets, calibrated to the role and seniority." },
-  { icon: <DollarSign className="h-5 w-5" />, title: "Salary benchmarking", body: "Median and range for the role in your market, refreshed monthly." },
+  { icon: <Users className="h-5 w-5" />, title: "Candidate matching", body: "Rank applicants against any vacancy with explainable fit scores.", to: "/employer/candidates" },
+  { icon: <FileText className="h-5 w-5" />, title: "Resume ↔ JD fit", body: "See strengths, gaps and recommended interview probes per candidate.", to: "/employer/fit-match" },
+  { icon: <MessageSquare className="h-5 w-5" />, title: "Interview questions", body: "Tailored question sets, calibrated to the role and seniority.", to: "/employer/interview" },
+  { icon: <DollarSign className="h-5 w-5" />, title: "Salary benchmarking", body: "Median and range for the role in your market, refreshed monthly.", to: "/employer/jd-analyzer" },
 ];
 
 function HiringAssistant() {
@@ -23,7 +23,7 @@ function HiringAssistant() {
             <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent-lime text-accent-lime-foreground">{t.icon}</div>
             <h3 className="mt-5 text-xl tracking-tight">{t.title}</h3>
             <p className="mt-2 text-muted-ink text-[15px]">{t.body}</p>
-            <button className="mt-5 inline-flex items-center gap-1.5 text-sm text-brand">Open tool →</button>
+            <Link to={t.to} className="mt-5 inline-flex items-center gap-1.5 text-sm text-brand">Open tool →</Link>
           </div>
         ))}
       </div>

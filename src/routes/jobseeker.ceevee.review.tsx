@@ -4,18 +4,36 @@ import { Download, FileText, CheckCheck } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { WorkflowBanner, AIEyebrow, TrackedChange } from "@/components/ai";
 import { CEEVEE_CV_EDITS, CEEVEE_CANDIDATE } from "@/lib/mock-data";
+import { useReward } from "@/components/gamification/reward";
 
 export const Route = createFileRoute("/jobseeker/ceevee/review")({
   component: CeeVeeReview,
 });
 
 function CeeVeeReview() {
+  const { award } = useReward();
   const [edits, setEdits] = useState(CEEVEE_CV_EDITS.map((e) => ({ ...e })));
 
-  const setAccepted = (index: number, accepted: boolean) =>
+  const setAccepted = (index: number, accepted: boolean) => {
+    // Reward only the pending → accepted transition (not re-accepting / rejecting).
+    if (accepted && !edits[index].accepted) {
+      const willAllBeAccepted = edits.every((e, i) => (i === index ? true : e.accepted));
+      award(
+        willAllBeAccepted
+          ? { xp: 60, title: "CV fully optimised", detail: "Every AI suggestion accepted — positioning score climbing.", icon: "trophy", unlockBadge: "b1" }
+          : { xp: 20, title: "Suggestion accepted", detail: "Applied to your exported CV.", icon: "check" },
+      );
+    }
     setEdits((prev) => prev.map((e, i) => (i === index ? { ...e, accepted } : e)));
+  };
 
-  const acceptAll = () => setEdits((prev) => prev.map((e) => ({ ...e, accepted: true })));
+  const acceptAll = () => {
+    const newlyAccepted = edits.filter((e) => !e.accepted).length;
+    if (newlyAccepted > 0) {
+      award({ xp: 20 * newlyAccepted, title: "All suggestions accepted", detail: `${newlyAccepted} edits applied to your CV.`, icon: "trophy", unlockBadge: "b1" });
+    }
+    setEdits((prev) => prev.map((e) => ({ ...e, accepted: true })));
+  };
 
   const acceptedCount = edits.filter((e) => e.accepted).length;
   const pendingCount = edits.length - acceptedCount;
@@ -42,6 +60,7 @@ function CeeVeeReview() {
         actions={
           <button
             type="button"
+            onClick={() => award({ xp: 30, title: "CV exported", detail: "Optimised CV downloaded as PDF.", icon: "check" })}
             className="inline-flex items-center gap-2 rounded-full bg-accent-lime px-5 py-2.5 text-sm text-accent-lime-foreground tracking-tight"
           >
             <Download className="h-4 w-4" />

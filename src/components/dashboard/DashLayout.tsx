@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 import { Reveal, RevealLift } from "@/components/motion";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { DashAssistant } from "@/components/dashboard/DashAssistant";
 
 export interface NavItem {
   to: string;
@@ -157,7 +158,7 @@ export function DashLayout({
           <div className="flex-1" />
           <div className="flex items-center gap-2 text-sm text-muted-ink">
             <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-alt">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Connected
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" /> Connected
             </span>
             <ThemeToggle />
             <button className="px-2.5 py-1 rounded-full bg-surface-alt">EN</button>
@@ -196,6 +197,9 @@ export function DashLayout({
           <span className="text-[10px] leading-none">More</span>
         </button>
       </nav>
+
+      {/* Page-aware floating AI assistant — present on every dashboard page */}
+      <DashAssistant />
     </div>
   );
 }
@@ -215,17 +219,17 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
 export function StatCard({ label, value, delta, accent }: { label: string; value: string; delta?: string; accent?: "blue" | "green" | "orange" | "purple" }) {
   const accents: Record<string, string> = {
     blue: "from-blue-100/60",
-    green: "from-lime-100/70",
+    green: "from-accent-lime/20",
     orange: "from-orange-100/60",
     purple: "from-violet-100/60",
   };
   return (
     <RevealLift className="relative overflow-hidden rounded-2xl bg-surface border border-border p-5">
-      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t ${accents[accent ?? "blue"]} to-transparent`} />
+      <div className={`pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t ${accents[accent ?? "blue"]} to-transparent dark:hidden`} />
       <div className="relative">
         <div className="text-[11px] uppercase tracking-wider text-muted-ink">{label}</div>
         <div className="mt-2 text-3xl tracking-tight text-ink">{value}</div>
-        {delta && <div className="mt-2 text-xs text-emerald-600">↗ {delta}</div>}
+        {delta && <div className="mt-2 text-xs text-brand">↗ {delta}</div>}
       </div>
     </RevealLift>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ShieldCheck, AlertTriangle } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Check } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import { WorkflowBanner, AIEyebrow, BiasNote } from "@/components/ai";
 import { ATLAS_EVAL_CRITERIA } from "@/lib/mock-data";
@@ -18,6 +19,7 @@ const SEGMENTS = [
 
 function EvaluationCriteria() {
   const [criteria, setCriteria] = useState(ATLAS_EVAL_CRITERIA);
+  const [locked, setLocked] = useState(false);
 
   const setWeight = (idx: number, value: number) =>
     setCriteria((prev) => prev.map((c, i) => (i === idx ? { ...c, weight: value } : c)));
@@ -126,10 +128,14 @@ function EvaluationCriteria() {
 
             <button
               type="button"
-              disabled={!balanced}
+              disabled={!balanced || locked}
+              onClick={() => {
+                setLocked(true);
+                toast("Scorecard locked", { description: `${criteria.length} criteria · weights balanced at 100%.` });
+              }}
               className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-panel text-white px-4 py-2.5 text-sm disabled:opacity-40"
             >
-              <ShieldCheck className="h-4 w-4" /> Lock scorecard
+              {locked ? <><Check className="h-4 w-4" /> Scorecard locked</> : <><ShieldCheck className="h-4 w-4" /> Lock scorecard</>}
             </button>
           </div>
         </aside>

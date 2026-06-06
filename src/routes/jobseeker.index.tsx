@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, TrendingUp, Zap, Trophy, Flame, Star, Rocket, Shield, Target, Gift } from "lucide-react";
 import type { ComponentType } from "react";
 import { PageHeader, StatCard } from "@/components/dashboard/DashLayout";
-import { APPLICATIONS, JOBS, BADGES, GAMIFICATION, type AchievementBadge } from "@/lib/mock-data";
+import { APPLICATIONS, JOBS, type AchievementBadge } from "@/lib/mock-data";
+import { useReward } from "@/components/gamification/reward";
 import { useAuth } from "@/lib/auth";
 
 const BADGE_ICON: Record<AchievementBadge["icon"], ComponentType<{ className?: string }>> = {
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/jobseeker/")({
 
 function Overview() {
   const { user } = useAuth();
+  const { level, levelLabel, xp, xpToNext, streakDays, badges, award } = useReward();
   const top = JOBS.slice(0, 3);
   return (
     <div>
@@ -86,8 +88,8 @@ function Overview() {
                 <Zap className="h-4 w-4" />
               </span>
               <div>
-                <div className="text-sm text-ink">Level {GAMIFICATION.level} · {GAMIFICATION.levelLabel}</div>
-                <div className="text-xs text-muted-ink">{GAMIFICATION.xp} / {GAMIFICATION.xpToNext} XP · {GAMIFICATION.streakDays}-day streak</div>
+                <div className="text-sm text-ink">Level {level} · {levelLabel}</div>
+                <div className="text-xs text-muted-ink">{xp} / {xpToNext} XP · {streakDays}-day streak</div>
               </div>
             </div>
             <Link to="/jobseeker/profile" className="text-sm text-brand inline-flex items-center gap-1">
@@ -95,7 +97,7 @@ function Overview() {
             </Link>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            {BADGES.filter((b) => b.earned).map((b) => {
+            {badges.filter((b) => b.earned).map((b) => {
               const Icon = BADGE_ICON[b.icon];
               return (
                 <span key={b.id} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-alt text-sm text-ink" title={b.detail}>
@@ -106,14 +108,19 @@ function Overview() {
           </div>
         </div>
 
-        <Link to="/jobseeker/profile" className="rounded-2xl bg-gradient-to-br from-accent-lime/30 to-surface border border-border p-6 block">
+        <div className="rounded-2xl bg-gradient-to-br from-accent-lime/30 to-surface dark:bg-none dark:bg-surface border border-border p-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-ink">
             <Gift className="h-3.5 w-3.5" /> Reward unlocked
           </div>
           <h3 className="mt-3 text-lg tracking-tight text-ink">RM15 ride voucher</h3>
           <p className="mt-1 text-sm text-muted-ink">Attend your Maybank interview on 5 Jun to claim your travel perk.</p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-brand">Claim now <ArrowRight className="h-3.5 w-3.5" /></span>
-        </Link>
+          <button
+            onClick={() => award({ xp: 40, title: "Reward claimed", detail: "RM15 ride voucher added to your wallet.", icon: "party" })}
+            className="mt-4 inline-flex items-center gap-1.5 text-sm text-brand"
+          >
+            Claim now <ArrowRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );

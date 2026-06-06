@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Check, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
 import { PageHeader } from "@/components/dashboard/DashLayout";
 import {
   WorkflowBanner,
@@ -19,6 +20,13 @@ function FitMatch() {
   const [selectedId, setSelectedId] = useState(ATLAS_FIT[0]?.id ?? "");
   const selected =
     ATLAS_FIT.find((c) => c.id === selectedId) ?? ATLAS_FIT[0];
+  const [shortlisted, setShortlisted] = useState<string[]>([]);
+
+  const toggleShortlist = (id: string, name: string) => {
+    const next = !shortlisted.includes(id);
+    setShortlisted((s) => (next ? [...s, id] : s.filter((x) => x !== id)));
+    toast(next ? `${name} shortlisted` : `${name} removed from shortlist`);
+  };
 
   return (
     <div>
@@ -96,6 +104,20 @@ function FitMatch() {
                   <p className="mt-3 text-sm leading-relaxed text-muted-ink">
                     {selected.summary}
                   </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <button
+                      onClick={() => toggleShortlist(selected.id, selected.name)}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm ${shortlisted.includes(selected.id) ? "bg-surface-alt text-ink" : "bg-accent-lime text-accent-lime-foreground"}`}
+                    >
+                      {shortlisted.includes(selected.id) ? <><Check className="h-3.5 w-3.5" /> Shortlisted</> : "Shortlist"}
+                    </button>
+                    <Link
+                      to="/employer/interview"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-panel text-white px-4 py-2 text-sm"
+                    >
+                      Advance to interview <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
