@@ -34,6 +34,7 @@ import { Route as EmployerCandidatesRouteImport } from './routes/employer.candid
 import { Route as EmployerAssistantRouteImport } from './routes/employer.assistant'
 import { Route as CaseofficerReportHubRouteImport } from './routes/caseofficer.report-hub'
 import { Route as CaseofficerKnowledgeBaseRouteImport } from './routes/caseofficer.knowledge-base'
+import { Route as CaseofficerEventsRouteImport } from './routes/caseofficer.events'
 import { Route as AiTrainingRouteImport } from './routes/ai.training'
 import { Route as AiJobMatchRouteImport } from './routes/ai.job-match'
 import { Route as AiInterviewRouteImport } from './routes/ai.interview'
@@ -168,6 +169,11 @@ const CaseofficerKnowledgeBaseRoute =
     path: '/knowledge-base',
     getParentRoute: () => CaseofficerRoute,
   } as any)
+const CaseofficerEventsRoute = CaseofficerEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => CaseofficerRoute,
+} as any)
 const AiTrainingRoute = AiTrainingRouteImport.update({
   id: '/training',
   path: '/training',
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/ai/interview': typeof AiInterviewRoute
   '/ai/job-match': typeof AiJobMatchRoute
   '/ai/training': typeof AiTrainingRoute
+  '/caseofficer/events': typeof CaseofficerEventsRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -247,6 +254,7 @@ export interface FileRoutesByTo {
   '/ai/interview': typeof AiInterviewRoute
   '/ai/job-match': typeof AiJobMatchRoute
   '/ai/training': typeof AiTrainingRoute
+  '/caseofficer/events': typeof CaseofficerEventsRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -282,6 +290,7 @@ export interface FileRoutesById {
   '/ai/interview': typeof AiInterviewRoute
   '/ai/job-match': typeof AiJobMatchRoute
   '/ai/training': typeof AiTrainingRoute
+  '/caseofficer/events': typeof CaseofficerEventsRoute
   '/caseofficer/knowledge-base': typeof CaseofficerKnowledgeBaseRoute
   '/caseofficer/report-hub': typeof CaseofficerReportHubRoute
   '/employer/assistant': typeof EmployerAssistantRoute
@@ -318,6 +327,7 @@ export interface FileRouteTypes {
     | '/ai/interview'
     | '/ai/job-match'
     | '/ai/training'
+    | '/caseofficer/events'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/ai/interview'
     | '/ai/job-match'
     | '/ai/training'
+    | '/caseofficer/events'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/ai/interview'
     | '/ai/job-match'
     | '/ai/training'
+    | '/caseofficer/events'
     | '/caseofficer/knowledge-base'
     | '/caseofficer/report-hub'
     | '/employer/assistant'
@@ -591,6 +603,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseofficerKnowledgeBaseRouteImport
       parentRoute: typeof CaseofficerRoute
     }
+    '/caseofficer/events': {
+      id: '/caseofficer/events'
+      path: '/events'
+      fullPath: '/caseofficer/events'
+      preLoaderRoute: typeof CaseofficerEventsRouteImport
+      parentRoute: typeof CaseofficerRoute
+    }
     '/ai/training': {
       id: '/ai/training'
       path: '/training'
@@ -664,12 +683,14 @@ const AiRouteChildren: AiRouteChildren = {
 const AiRouteWithChildren = AiRoute._addFileChildren(AiRouteChildren)
 
 interface CaseofficerRouteChildren {
+  CaseofficerEventsRoute: typeof CaseofficerEventsRoute
   CaseofficerKnowledgeBaseRoute: typeof CaseofficerKnowledgeBaseRoute
   CaseofficerReportHubRoute: typeof CaseofficerReportHubRoute
   CaseofficerIndexRoute: typeof CaseofficerIndexRoute
 }
 
 const CaseofficerRouteChildren: CaseofficerRouteChildren = {
+  CaseofficerEventsRoute: CaseofficerEventsRoute,
   CaseofficerKnowledgeBaseRoute: CaseofficerKnowledgeBaseRoute,
   CaseofficerReportHubRoute: CaseofficerReportHubRoute,
   CaseofficerIndexRoute: CaseofficerIndexRoute,

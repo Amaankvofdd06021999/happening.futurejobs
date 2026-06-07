@@ -123,7 +123,7 @@ export function RewardProvider({ children }: { children: ReactNode }) {
     // Neutral styling + a brand icon (no green success chrome).
     toast(`${input.title} · +${input.xp} XP`, {
       description: badge ? `Achievement unlocked: ${badge.label}` : input.detail,
-      icon: <Zap className="h-4 w-4 text-accent-lime-foreground" />,
+      icon: <Zap className="h-4 w-4 text-accent-lime" />,
     });
   }, [xp, level, levelLabel, xpToNext, badges]);
 
@@ -196,7 +196,7 @@ function CelebrationOverlay({
             )}
 
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent-lime/20 px-4 py-1.5 text-sm text-ink">
-              <Zap className="h-4 w-4 text-accent-lime-foreground" /> +{celebration.xp} XP
+              <Zap className="h-4 w-4 text-accent-lime" /> +{celebration.xp} XP
             </div>
 
             {celebration.badge && (
@@ -228,7 +228,7 @@ function CelebrationOverlay({
 function BadgeGlyph({ icon }: { icon: AchievementBadge["icon"] }) {
   const Icon = ICONS[icon];
   return (
-    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-accent-lime/30 text-accent-lime-foreground">
+    <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-accent-lime/30 text-ink">
       <Icon className="h-4 w-4" />
     </span>
   );

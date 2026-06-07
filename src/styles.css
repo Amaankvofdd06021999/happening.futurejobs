@@ -123,7 +123,7 @@
    * it now resolves to orange everywhere. Foreground stays dark ink (≈5:1 on the
    * coral, better contrast than white would give). */
   --accent-lime: oklch(0.685 0.17 36);      /* #F46944 — brand accent orange */
-  --accent-lime-foreground: oklch(0.22 0.05 260);
+  --accent-lime-foreground: oklch(0.99 0 0); /* white — text/icons on solid orange fills */
   /* Theme-static brand blue — same in light + dark (used by the landing hero,
    * which must not change colour between modes). Intentionally NOT overridden in .dark. */
   --brand-static: oklch(0.36 0.18 265);
@@ -188,7 +188,7 @@
   --brand-soft: oklch(0.72 0.16 248);
   --brand-foreground: oklch(0.99 0 0);
   --accent-lime: oklch(0.72 0.165 38);     /* #F46944 family, lifted for dark */
-  --accent-lime-foreground: oklch(0.2 0.05 260);
+  --accent-lime-foreground: oklch(0.99 0 0); /* white — text/icons on solid orange fills */
   --ink: oklch(0.96 0.01 250);
   --muted-ink: oklch(0.68 0.02 258);
   --surface: oklch(0.215 0.025 265);

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LayoutDashboard, FileSearch, Database } from "lucide-react";
+import { LayoutDashboard, FileSearch, Database, CalendarDays } from "lucide-react";
 import { DashLayout, type NavItem } from "@/components/dashboard/DashLayout";
 
 export const Route = createFileRoute("/caseofficer")({
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/caseofficer")({
 
 const NAV: NavItem[] = [
   { to: "/caseofficer", label: "Overview", icon: <LayoutDashboard className="h-4 w-4" />, group: "Overview" },
+  { to: "/caseofficer/events", label: "Events", icon: <CalendarDays className="h-4 w-4" />, group: "Events" },
   { to: "/caseofficer/report-hub", label: "Report Hub", icon: <FileSearch className="h-4 w-4" />, group: "Market Intelligence" },
   { to: "/caseofficer/knowledge-base", label: "Knowledge Base", icon: <Database className="h-4 w-4" />, group: "Market Intelligence" },
 ];

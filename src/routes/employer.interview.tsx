@@ -16,7 +16,7 @@ type Filter = (typeof FILTERS)[number];
 
 const CATEGORY_PILL: Record<Category, string> = {
   Behavioral: "bg-brand/10 text-brand",
-  Competency: "bg-accent-lime/20 text-accent-lime-foreground",
+  Competency: "bg-accent-lime/20 text-ink",
   Situational: "bg-blue-500/10 text-blue-700",
 };
 
@@ -111,7 +111,7 @@ function InterviewQuestions() {
                 <ul className="mt-3 space-y-2.5">
                   {q.mustHit.map((m, mi) => (
                     <li key={mi} className="flex items-start gap-2.5 text-[15px] text-ink">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-lime-foreground" />
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-lime" />
                       <span>{m}</span>
                     </li>
                   ))}
